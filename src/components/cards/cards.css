@@ -1,0 +1,14 @@
+.hov-card-header h5{
+    margin-top: 15px !important;
+}
+.hov-card-body{
+    margin-top: 22px !important;
+}
+
+.hov-card img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 200px;
+}

@@ -1,0 +1,21 @@
+.carousel-container{
+    max-width: 1450px;
+    max-height: 400px;
+    margin:40px;
+
+}
+.carousel-container img{
+    min-width: 1450px;
+    height: 500px;
+}
+
+@media screen and (max-width: 650px){
+    .carousel-container{
+        max-width: 373px;
+        margin: 3px;
+    }
+    .carousel-container img{
+        max-width: 360px;
+        height: 400px;
+    }
+}
