@@ -2,16 +2,25 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './auth.css';
 import { Email, Password } from '../../utils/svgIcons';
+import { UserLogin } from '../../types/userTypes';
+import { AuthLoginService } from '../../services/authServices';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const dispatch = useDispatch();
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Implement login logic here
         console.log('Email:', email);
         console.log('Password:', password);
+        const userDetails : UserLogin = {
+            email: email,
+            password: password
+        } 
+        await AuthLoginService(userDetails,dispatch);
     };
 
     return (

@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import { Email, Mobile, Password, User } from '../../utils/svgIcons';
+
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../../slice/userSlice';
+import { AuthRegisterService } from '../../services/authServices';
 
 const Register = () => {
     // State to manage form inputs
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: '',
         name: '',
@@ -22,19 +29,16 @@ const Register = () => {
 
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); // Prevent default form submission
-
-        // Send the form data to the server (replace with your server URL)
-        // const response = await fetch('/api/register', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(formData), // Send the form data as JSON
-        // });
-
-        // const result = await response.json();
+        e.preventDefault(); 
         console.log(JSON.stringify(formData)); // Handle server response
+        dispatch(updateUser({
+            name: formData.name,
+            password: formData.password,
+            mobilenumber: formData.mobile,
+            email: formData.email,
+        }));
+        await AuthRegisterService(formData);
+        navigate('/');
     };
 
     return (
