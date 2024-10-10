@@ -12,8 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
   <StrictMode>
-    <App />
     <ToastContainer />
-  </StrictMode>,
+    <App />
+  </StrictMode>
   </Provider>
 )

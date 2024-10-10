@@ -5,9 +5,15 @@ export interface CartItems {
 export interface Items {
     id:number,
     name:string
-    price: number,
+    price: number[],
     quantity:number,
     description:string,
     image:string,
-    itemQty?:number
+    quantitysize?: number[];
+    ratings?: number;
+    ratingStar?: string;
+    offerprice?: number;
+    instock?: boolean;
+    itemQty?:number;
+    finalPrice?: number;
 }

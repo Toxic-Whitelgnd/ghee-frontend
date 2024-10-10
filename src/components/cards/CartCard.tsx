@@ -20,16 +20,16 @@ const CartCard = ({ item }: CartCardProps) => {
         }
     }
 
-    const handleRemoveItem = (itemId: number) => {
-        dispatch(removeItem(itemId));
+    const handleRemoveItem = () => {
+        dispatch(removeItem(item));
     };
 
     const handleIncreaseItemQty = (itemId: number) => {
-        dispatch(increaseItemQty(itemId));
+        dispatch(increaseItemQty(item));
     };
 
     const handleDecreaseItemQty = (itemId: number) => {
-        dispatch(decreaseItemQty(itemId));
+        dispatch(decreaseItemQty(item));
     };
 
     const handleClearCart = () => {
@@ -50,7 +50,7 @@ const CartCard = ({ item }: CartCardProps) => {
                         </div>
                     </div>
                 </td>
-                <td data-th="Price">${(item.price * (item.itemQty || 1))}</td>
+                <td data-th="Price">${((item.finalPrice || 1) * (item.itemQty || 1))}</td>
                 <td data-th="Quantity">
                 <div className="quantity">
                         <button className="minus" onClick={() => handleDecreaseItemQty(item.id)} aria-label="Decrease">-</button>
@@ -59,7 +59,7 @@ const CartCard = ({ item }: CartCardProps) => {
                     </div>
                 </td>
                 <td className="actions" data-th="">
-                    <button className="bin-button" onClick={()=>handleRemoveItem(item.id)}>
+                    <button className="bin-button" onClick={()=>handleRemoveItem()}>
                         <TrashIcon />
                     </button>
            

@@ -10,28 +10,45 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addItem: (state, action: PayloadAction<Items>) => {
-            const existingItem = state.cartItems.find(item => item.id === action.payload.id);
+            const existingItem = state.cartItems.find(item =>
+                item.id === action.payload.id && item.quantity === action.payload.quantity && item.finalPrice === action.payload.finalPrice
+            );
+           
             if (existingItem) {
                 // If item exists, update the quantity
-                existingItem.itemQty = (existingItem.itemQty || 1) + 1; // Default to 1 if not provided
-                
+                existingItem.itemQty = (existingItem.itemQty || 1) + 1;
+
             } else {
+            
                 // If item doesn't exist, add it to the cart
-                state.cartItems.push({ ...action.payload});
+                state.cartItems.push({ ...action.payload });
             }
         },
-        removeItem: (state, action: PayloadAction<number>) => {
-            // Remove item based on its id
-            state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
+        removeItem: (state, action: PayloadAction<Items>) => {
+            const existingItem = state.cartItems.find(item =>
+                item.id === action.payload.id && item.quantity === action.payload.quantity && item.finalPrice === action.payload.finalPrice
+            );
+
+            if (existingItem) {
+                // If the quantity is 1, remove the item from the cart
+                state.cartItems = state.cartItems.filter(item =>
+                    item.id !== action.payload.id || item.quantity !== action.payload.quantity 
+                );
+
+            }
         },
-        increaseItemQty: (state, action: PayloadAction<number>) => {
-            const existingItem = state.cartItems.find(item => item.id === action.payload);
+        increaseItemQty: (state, action: PayloadAction<Items>) => {
+            const existingItem = state.cartItems.find(item =>
+                item.id === action.payload.id && item.itemQty === action.payload.itemQty && item.finalPrice === action.payload.finalPrice
+            );
             if (existingItem) {
                 existingItem.itemQty = (existingItem.itemQty || 1) + 1; // Increment itemQty
             }
         },
-        decreaseItemQty: (state, action: PayloadAction<number>) => {
-            const existingItem = state.cartItems.find(item => item.id === action.payload);
+        decreaseItemQty: (state, action: PayloadAction<Items>) => {
+            const existingItem = state.cartItems.find(item =>
+                item.id === action.payload.id && item.itemQty === action.payload.itemQty && item.finalPrice === action.payload.finalPrice
+            );
             if (existingItem && existingItem.itemQty && existingItem.itemQty > 1) {
                 existingItem.itemQty -= 1;
             }
@@ -41,10 +58,10 @@ const cartSlice = createSlice({
             state.cartItems = [];
         },
         updateItemQuantity: (state, action) => {
-            const { id, newQuantity} = action.payload;
+            const { id, newQuantity } = action.payload;
             const item = state.cartItems.find(item => item.id === id);
             if (item) {
-              item.itemQty = newQuantity;
+                item.itemQty = newQuantity;
             }
         },
     },
@@ -52,13 +69,13 @@ const cartSlice = createSlice({
 //TODO: keep the previous price , and add a new quantity price
 
 // Export actions
-export const { addItem, removeItem, increaseItemQty, decreaseItemQty, clearCart,updateItemQuantity } = cartSlice.actions;
+export const { addItem, removeItem, increaseItemQty, decreaseItemQty, clearCart, updateItemQuantity } = cartSlice.actions;
 
 // Selectors
 export const selectCartItems = (state: { cart: CartItems }) => state.cart.cartItems;
-export const selectCartTotalQuantity = (state: { cart: CartItems }) => 
+export const selectCartTotalQuantity = (state: { cart: CartItems }) =>
     state.cart.cartItems.reduce((total, item) => total + (item.itemQty || 0), 0);
-export const selectTotalItems = (state: { cart: CartItems }) => 
+export const selectTotalItems = (state: { cart: CartItems }) =>
     state.cart.cartItems.length;
 
 // Export reducer

@@ -1,24 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Product } from "../types/productTypes";
+import { Product, ProductItems } from "../types/productTypes";
 
-const initialState: Product = {
-    id: 0,
-    name: "",
-    description: "",
-    price: 0,
-    quantity: 0,
-    image: "",  
+const productIntialState: Product = {
+    id:0,
+    name: "Product1",
+    price: [120,140,200],
+    offerpercentage: 20,
+    quantity: 100,
+    quantitysize: [100,250,300],
+    instock: true,
+    ratings: 200,
+    ratingStar: "3",
+    description:"sdfsd fsd fsd sdfsdf sdf sd f",
+    image: "pathtoimage.png",
+
 }
+const initialState: ProductItems = {
+ products: [productIntialState],
+}
+
 
 export const productSlice = createSlice(
     {
         name: "Product",
         initialState,
         reducers:{
-            setProduct: (state, action : PayloadAction<Partial<Product>>) => {
-                return {
-                    ...state, ...action.payload,
+            setProduct: (state, action : PayloadAction<Product>) => {
+                const productExists = state.products.some(product => product.id === action.payload.id);
+
+                if (!productExists) {
+                    state.products.push({ ...action.payload });
                 }
             }
         }
@@ -28,5 +40,8 @@ export const productSlice = createSlice(
 export const {setProduct} = productSlice.actions;
 
 export const selectProduct = (state : {product : Product}) => state.product;
+
+export const selectProductById = (state: { product: { products: Product[] } }, id: number | undefined) =>
+    state.product.products.find((product) => product.id === id);
 
 export default productSlice.reducer;

@@ -9,6 +9,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Profile from './pages/profile/Profile';
 import YourOrders from './pages/profile/YourOrders';
+import ProductView from './pages/products/ProductView';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
                 <Route path='/' index element={<Home />} />
                 <Route path='/about' element={<AdminDashboard />} />
                 <Route path='/products' element={<ProductHome />} />
+                <Route path='/product/:id' element={<ProductView />} />
                 <Route path='/cart' element={<Cart />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />

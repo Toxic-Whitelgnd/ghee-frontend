@@ -18,7 +18,7 @@ export default function Home() {
       
     return (
         <div>          
-            <div>
+            <div className='common-container'>
                 <div className='home-carousel-container'>
                 <CarouselBanner />
                 </div>
