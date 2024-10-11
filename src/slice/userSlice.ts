@@ -15,6 +15,7 @@ const initialState: User = {
     pincode: '',
     state: '',
     district: '',
+    token: '',
 }
 
 

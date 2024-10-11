@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button, Col, Container, Dropdown, DropdownButton, Form, Nav, Row, Tab } from 'react-bootstrap'
 import { Orders } from './orders/Orders'
+import EmailTemplateManager from './emailmanager/EmailManager';
 
 interface Order {
   title: string;
@@ -162,10 +163,7 @@ export default function AdminDashboard() {
 
                   </Tab.Pane>
                   <Tab.Pane eventKey="link-2">
-                    <h3>Email Template</h3>
-                    {/* TODO: NEED TO ADD A EMAIL TEMPLATE BUTTON, DEFAULT TEMPALTE  */}
-                    <h5>add new tempalte button</h5>
-                    <h5>List the defaul tempalte </h5>
+                   <EmailTemplateManager />
                   </Tab.Pane>
                   <Tab.Pane eventKey="link-3">
                     {/* Content for Link */}
@@ -185,3 +183,4 @@ export default function AdminDashboard() {
     </div>
   )
 }
+

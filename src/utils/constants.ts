@@ -4,6 +4,6 @@ export const APIS = {
 }
 
 export const AUTHAPI = {
-    LOGIN: '/login',
-    REGISTER: '/register',
+    LOGIN: '/account/login',
+    REGISTER: '/account/register',
 }

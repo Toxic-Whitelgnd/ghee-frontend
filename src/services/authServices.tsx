@@ -1,17 +1,42 @@
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 
 import { toast } from "react-toastify";
-import { User, UserLogin } from "../types/userTypes";
+import { AuthResponse, User, UserLogin, UserRegisterDTO } from "../types/userTypes";
 import { updateUser } from "../slice/userSlice";
 import { useNavigate } from "react-router-dom";
+import { APIS, AUTHAPI } from "../utils/constants";
 
 
 
-export  const  AuthRegisterService = async (userData : User) =>{
-    const api = 'http:/localhost:8080/';
+export  const  AuthRegisterService = async (userData : User, dispatch: any) =>{
+    const userRegister : UserRegisterDTO =  {
+        username:userData.name,
+        emailaddress:userData.email,
+        mobilenumber:userData.mobilenumber,
+        password:userData.password,
+    }
+
     try {
-        // await  axios.post(`${api}/api/register`, userData );
+        JSON.stringify(userRegister)
+        const response: AxiosResponse<AuthResponse> = await axios.post(`${APIS.API}${APIS.CONTEXT}${AUTHAPI.REGISTER}`, userRegister);
+        const token = response.data.token;
+        const user = response.data.user;
+
+        const loginuser: User = {
+            name: user.username,
+            password: user.password,
+            email: user.emailaddress,
+            mobilenumber: user.mobilenumber,
+            address: user.address,
+            pincode: user.pincode,
+            district: user.district,
+            state: user.state,
+            roles: user.roles,
+            token: token
+        }
+        dispatch(updateUser(loginuser));
          toast.success("Registeration successful");
+         window.location.href = "#/"
         
     } catch (error) {
         toast.error("Registration Failed");
@@ -22,16 +47,28 @@ export const AuthLoginService = async (userData : UserLogin, dispatch: any) =>{
   
     try {
        
-        //const response = await axios.get(`${api}/api/login`, userData);
-        dispatch(updateUser({
-            name: "Tarun", //will use from the response
-            password: userData.password,
-            mobilenumber: "1234567890",
-            email: userData.email,
-        }));
+        const response: AxiosResponse<AuthResponse> = await axios.post(`${APIS.API}${APIS.CONTEXT}${AUTHAPI.LOGIN}`, userData);
+        const token = response.data.token;
+        const user = response.data.user;
+
+        const loginuser: User = {
+            name: user.username,
+            password: user.password,
+            email: user.emailaddress,
+            mobilenumber: user.mobilenumber,
+            address: user.address,
+            pincode: user.pincode,
+            district: user.district,
+            state: user.state,
+            roles: user.roles,
+            token: token
+        }
+        dispatch(updateUser(loginuser));
         toast.success("Login successful");
+        
         window.location.href = '#/'
     } catch (error) {
+        console.log(error);
         toast.error("Login Failed");
     }
 }

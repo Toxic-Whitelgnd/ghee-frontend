@@ -14,7 +14,7 @@ const Register = () => {
     const [formData, setFormData] = useState({
         email: '',
         name: '',
-        mobile: '',
+        mobilenumber: '',
         password: '',
     });
 
@@ -31,14 +31,9 @@ const Register = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); 
         console.log(JSON.stringify(formData)); // Handle server response
-        dispatch(updateUser({
-            name: formData.name,
-            password: formData.password,
-            mobilenumber: formData.mobile,
-            email: formData.email,
-        }));
-        await AuthRegisterService(formData);
-        navigate('/');
+        
+        await AuthRegisterService(formData,dispatch);
+        // navigate('/');
     };
 
     return (
@@ -83,9 +78,9 @@ const Register = () => {
                         <input
                             type="text"
                             className="input"
-                            name="mobile"
+                            name="mobilenumber"
                             placeholder="Enter your Mobile number"
-                            value={formData.mobile}
+                            value={formData.mobilenumber}
                             onChange={handleInputChange}
                         />
                     </div>
