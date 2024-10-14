@@ -8,7 +8,7 @@ export interface Items {
     price: number[],
     quantity:number,
     description:string,
-    image:string,
+    images?:string,
     quantitysize?: number[];
     ratings?: number;
     ratingStar?: string;

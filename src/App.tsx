@@ -11,8 +11,8 @@ import Profile from './pages/profile/Profile';
 import YourOrders from './pages/profile/YourOrders';
 import ProductView from './pages/products/ProductView';
 
-
 function App() {
+  
   return (
     <>
       <MainLayout>

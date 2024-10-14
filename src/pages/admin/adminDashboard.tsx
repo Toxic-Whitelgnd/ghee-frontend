@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Button, Col, Container, Dropdown, DropdownButton, Form, Nav, Row, Tab } from 'react-bootstrap'
+import { Button, Col, Container, Dropdown, DropdownButton, Nav, Row, Tab } from 'react-bootstrap'
 import { Orders } from './orders/Orders'
 import EmailTemplateManager from './emailmanager/EmailManager';
+import ProductManager from './products/AdminProduct';
 
 interface Order {
   title: string;
@@ -166,9 +167,7 @@ export default function AdminDashboard() {
                    <EmailTemplateManager />
                   </Tab.Pane>
                   <Tab.Pane eventKey="link-3">
-                    {/* Content for Link */}
-                    <h3>Content for Link</h3>
-                    <p>This is the content for the third tab.</p>
+                    <ProductManager />
                   </Tab.Pane>
                   <Tab.Pane eventKey="link-4">
                     {/* Disabled tab content, it won't be visible */}

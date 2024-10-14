@@ -13,8 +13,6 @@ const productIntialState: Product = {
     ratings: 200,
     ratingStar: "3",
     description:"sdfsd fsd fsd sdfsdf sdf sd f",
-    image: "pathtoimage.png",
-
 }
 const initialState: ProductItems = {
  products: [productIntialState],

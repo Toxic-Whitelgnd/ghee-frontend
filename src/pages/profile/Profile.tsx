@@ -4,6 +4,7 @@ import { selectUser, updateUser } from '../../slice/userSlice';
 import { toast } from 'react-toastify';
 import "./profile.css";
 import { User } from '../../types/userTypes';
+import { ProfileUpdateService } from '../../services/apiServices';
 
 const Profile = () => {
     const user = useSelector(selectUser);
@@ -44,9 +45,14 @@ const Profile = () => {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(updateUser(userDetails));
+        console.log(userDetails);
+        const res = await ProfileUpdateService(userDetails);
+        if(res){
+            dispatch(updateUser(userDetails));
+        }
+    
         setIsEditing(false); 
     };
 

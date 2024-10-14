@@ -5,8 +5,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./NavBar.css"
 import { useDispatch, useSelector } from 'react-redux';
-import { resetUser, selectUser } from '../../slice/userSlice';
+import { resetUser, selectUser, updateUser } from '../../slice/userSlice';
 import { selectTotalItems } from '../../slice/cartSlice';
+import { configureAxios } from '../../config/axiosConfig';
+import { useNavigate } from 'react-router-dom';
+import { initialState } from '../../types/userTypes';
 
 export default function NavBar() {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -16,8 +19,29 @@ export default function NavBar() {
     const user = useSelector(selectUser);
     const totalItems = useSelector(selectTotalItems);
     const dispatch = useDispatch();
+   
+    const token = sessionStorage.getItem('token');
 
     useEffect(() => {
+        if (token) {
+            const user = JSON.parse(sessionStorage.getItem('user')!);
+            console.log(user);
+            dispatch(updateUser(user));
+            setIsLoggedIn(true);
+
+            const timeoutId = setTimeout(() => {
+                sessionStorage.removeItem('token');
+                sessionStorage.removeItem('user');
+                dispatch(updateUser(initialState)); // Clear user in redux state if needed
+            }, 20 * 60 * 1000); // 5 minutes in milliseconds
+
+            // Cleanup function to clear the timeout if the component unmounts
+            return () => clearTimeout(timeoutId);
+        }
+    }, [token, dispatch]); // Depend only on token and dispatch
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
         if (user && user.email && user.email.trim() !== '') {
             setIsLoggedIn(true);
 
@@ -29,14 +53,21 @@ export default function NavBar() {
         }
     }, [user]);
 
+
     useEffect(()=>{
         setItems(totalItems);
     },[totalItems])
 
     const logout = () => {
         dispatch(resetUser());
+        sessionStorage.removeItem('token');
         window.location.reload();
     }
+
+    useEffect(() => {
+        configureAxios(); //setting the configuration for axios with jwt token
+      }, [token]);
+
 
     return (
         <div>

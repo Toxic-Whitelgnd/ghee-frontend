@@ -1,22 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { User, UserLogin } from "../types/userTypes";
+import { initialState, User, UserLogin } from "../types/userTypes";
 
-
-
-const initialState: User = {
-    name: '',
-    password: '',
-    mobilenumber: '',
-    email: '',
-    isloggedin: false,
-    roles: ["USER"],
-    address:'',
-    pincode: '',
-    state: '',
-    district: '',
-    token: '',
-}
 
 
 export const userSlice = createSlice({

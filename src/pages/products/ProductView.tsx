@@ -9,6 +9,11 @@ import { addItem, decreaseItemQty, increaseItemQty } from '../../slice/cartSlice
 import { Items } from '../../types/cartTypes';
 import { toast } from 'react-toastify';
 import { calculatePrice, sampleProduct } from '../../utils/helperFunctions';
+import img1 from "../../assets/images/ghee1.jpg";
+import img2 from "../../assets/images/ghee2.jpg";
+import img3 from "../../assets/images/ghee3.jpg";
+import img4 from "../../assets/images/ghee4.jpg";
+import ImageSelector from '../../components/cards/ImageSelectorCard';
 
 interface RootState {
     product: {
@@ -52,7 +57,7 @@ const ProductView = () => {
             price: product.price,
             quantity: (selectedQuantity || product.quantity),
             description: product.description,
-            image: product.image,
+            // image: product.images,
             itemQty: tempQty,
             quantitysize: product.quantitysize,
             instock: product.instock,
@@ -77,13 +82,17 @@ const ProductView = () => {
     useEffect(() => {
         setSelectedQuantity((product?.quantity || 1));
     }, [product]);
+
+    const images = [
+        img1, img2, img3, img4
+    ];
     return (
         <div>
             <div className='common-container'>
                 <h1>More Details About the product</h1>
                 <div className='row'>
-                    <div className='col col-lg-5'>
-                        <h5>Images goes this side</h5>
+                    <div className='col col-lg-5 mt-3'>
+                        <ImageSelector images={images} />
                     </div>
                     <div className='col-md'>
                         <div className='row'>
