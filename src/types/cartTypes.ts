@@ -17,3 +17,12 @@ export interface Items {
     itemQty?:number;
     finalPrice?: number;
 }
+
+export interface Order {
+    id: number;
+    items: Items[];            // List of items in the order
+    totalAmount: number;       // Total order amount
+    receipt?: string;          // Receipt (optional, can be generated after payment)
+    note?: string;             // Optional customer note
+    createdAt: Date;           // Date of the order creation
+}

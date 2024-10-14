@@ -235,7 +235,7 @@
     margin: 10px 0 0 -30px;
   }
   
-  .checkout-container:hover .card {
+  .checkout-container:hover .card1 {
     animation: slide-top 1.2s cubic-bezier(0.645, 0.045, 0.355, 1) both;
   }
   
