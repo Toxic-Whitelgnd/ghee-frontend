@@ -12,7 +12,7 @@ export interface User {
     token?: string;
 }
 
-export interface UserRegisterDTO{
+export interface UserRegisterDTO {
     username: string;
     password?: string;
     mobilenumber?: string;
@@ -39,4 +39,32 @@ export interface AuthResponse {
         district?: string;
         state?: string;
     };
+}
+
+export interface Profile {
+    id?: number;
+    username: string;
+    password?: string;
+    mobilenumber?: string;
+    emailaddress: string;
+    isloggedin?: boolean;
+    roles?: string[];
+    address?: string;
+    pincode?: string;
+    district?: string;
+    state?: string;
+}
+
+export const initialState: User = {
+    name: '',
+    password: '',
+    mobilenumber: '',
+    email: '',
+    isloggedin: false,
+    roles: ["USER"],
+    address: '',
+    pincode: '',
+    state: '',
+    district: '',
+    token: '',
 }

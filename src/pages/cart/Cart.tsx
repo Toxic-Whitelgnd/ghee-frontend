@@ -5,6 +5,7 @@ import { Items } from '../../types/cartTypes';
 import CartCard from '../../components/cards/CartCard';
 import { toast } from 'react-toastify';
 import "../../styles/global.css"
+import { selectUser } from '../../slice/userSlice';
 
 export default function Cart() {
     const carts = useSelector(selectCartItems);
@@ -13,8 +14,18 @@ export default function Cart() {
         setCartItems(carts);
     }, [carts])
 
+    const user = useSelector(selectUser);
+
     const handleCheckout = () => {
-        toast.success("redirecting to the payemnt page");
+        toast.success("redirecting to the payment page");
+        if(user.isloggedin){
+            //Check for the details of address and other things
+            window.location.href = '#/checkoutbilling';
+        }else{
+            //navigate to checkoutpage 1
+            window.location.href = '#/checkoutbilling';
+        }
+
     }
 
     const getTotal = () =>{

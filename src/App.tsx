@@ -10,9 +10,11 @@ import Register from './pages/auth/Register';
 import Profile from './pages/profile/Profile';
 import YourOrders from './pages/profile/YourOrders';
 import ProductView from './pages/products/ProductView';
-
+import BillingDetailsPage from './pages/checkout/checkoutDetails';
+import OrdersPage from './pages/checkout/checkoutOrders';
 
 function App() {
+  
   return (
     <>
       <MainLayout>
@@ -27,6 +29,8 @@ function App() {
                 <Route path='/register' element={<Register />} />
                 <Route path='/account' element={<Profile />} />
                 <Route path='/orders' element={<YourOrders />} />
+                <Route path='/checkoutbilling' element={<BillingDetailsPage />} />
+                <Route path='/checkoutorder' element={<OrdersPage />} />
             </Routes>
         </Router>
       </MainLayout>

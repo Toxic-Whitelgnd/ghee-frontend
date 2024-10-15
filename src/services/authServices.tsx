@@ -63,6 +63,8 @@ export const AuthLoginService = async (userData : UserLogin, dispatch: any) =>{
             roles: user.roles,
             token: token
         }
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('user', JSON.stringify(loginuser));
         dispatch(updateUser(loginuser));
         toast.success("Login successful");
         
