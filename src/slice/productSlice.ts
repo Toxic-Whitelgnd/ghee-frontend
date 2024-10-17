@@ -25,7 +25,7 @@ export const productSlice = createSlice(
         initialState,
         reducers:{
             setProduct: (state, action : PayloadAction<Product>) => {
-                const productExists = state.products.some(product => product.id === action.payload.id);
+                const productExists = state.products.some(product => product.name === action.payload.name);
 
                 if (!productExists) {
                     state.products.push({ ...action.payload });
@@ -41,5 +41,8 @@ export const selectProduct = (state : {product : Product}) => state.product;
 
 export const selectProductById = (state: { product: { products: Product[] } }, id: number | undefined) =>
     state.product.products.find((product) => product.id === id);
+
+export const selectProductByName = (state: { product: { products: Product[] } }, name: string | undefined) =>
+    state.product.products.find((product) => product.name === name);
 
 export default productSlice.reducer;

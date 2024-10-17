@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../../slice/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser, updateUser } from '../../slice/userSlice';
+import { BillingDetails } from '../../types/orderTypes';
+import { AuthRegisterOnProcessService } from '../../services/authServices';
 
-// Define the structure for the form data
-interface BillingDetails {
-    name: string;
-    email: string;
-    mobilenumber: string;
-    address: string;
-    pincode: string;
-    state: string;
-    district: string;
-}
 
 const BillingDetailsPage: React.FC = () => {
     // Fetch user data from the Redux store
     const user = useSelector(selectUser);
+    const dispatch = useDispatch();
 
     // Initialize state with default or user values
     const [billingDetails, setBillingDetails] = useState<BillingDetails>({
@@ -45,14 +38,22 @@ const BillingDetailsPage: React.FC = () => {
     }, [user]);
 
     // Handle form submission
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Handle form submission logic here
         console.log('Billing Details:', billingDetails);
+        dispatch(updateUser(billingDetails));
         if(!user.isloggedin){
             //TODO: SEND THE RESPONSE TO THE SERVER AND CREATE A ACCOUNT and navigate to billing , setin store
+            const res = await AuthRegisterOnProcessService(billingDetails, dispatch);
+            if(res){
+                   window.location.href = '#/checkoutorder'
+            }
+        }else{
+            window.location.href = '#/checkoutorder'
         }
-        window.location.href = '#/checkoutorder'
+        
+     
     };
 
     // Handle form input changes

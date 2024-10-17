@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { selectProductById } from '../../slice/productSlice';
-import { Product } from '../../types/productTypes';
+import { selectProductById, selectProductByName } from '../../slice/productSlice';
+import { Product , ImageData, ImageDatas} from '../../types/productTypes';
 import { RatingsIcons } from '../../utils/svgIcons';
 import SizeCard from '../../components/cards/SizeCard';
 import { addItem, decreaseItemQty, increaseItemQty } from '../../slice/cartSlice';
@@ -14,6 +14,7 @@ import img2 from "../../assets/images/ghee2.jpg";
 import img3 from "../../assets/images/ghee3.jpg";
 import img4 from "../../assets/images/ghee4.jpg";
 import ImageSelector from '../../components/cards/ImageSelectorCard';
+import ObjectID from 'bson-objectid';
 
 interface RootState {
     product: {
@@ -30,13 +31,15 @@ const ProductView = () => {
     const dispatch = useDispatch();
 
     const [tempQty, setTempQty] = useState(1);
+ 
     const [selectedQuantity, setSelectedQuantity] = useState<number | null>(null);
 
 
     const productId: number | undefined = id ? parseInt(id) : undefined;
-    const product = useSelector((state: RootState) => selectProductById(state, productId));
 
-    const [price, setPrice] = useState<number>(product?.price[(product?.quantitysize?.indexOf(product?.quantity) || 0)] || 0);
+    const product = useSelector((state: RootState) => selectProductByName(state, id?.toString()));
+
+    const [price, setPrice] = useState<number>(product?.price[(product?.quantitysize?.indexOf(product?.quantity) == -1 ? 0 : product?.quantitysize?.indexOf(product?.quantity)  || 0)] || 0);
 
     const handleIncreaseItemQty = (itemId: number) => {
 
@@ -78,21 +81,23 @@ const ProductView = () => {
     const handleContinueShopping = () => {
         window.location.href = '#/products'
     }
-    //TODO: WHEN THE QUANTTIY CHANGES UPDATE THE PRICE AND ITEMQTY AS STATE IS NOT LOADED
+
     useEffect(() => {
         setSelectedQuantity((product?.quantity || 1));
     }, [product]);
 
-    const images = [
+    const staticImages = [
         img1, img2, img3, img4
     ];
+
     return (
         <div>
             <div className='common-container'>
                 <h1>More Details About the product</h1>
                 <div className='row'>
                     <div className='col col-lg-5 mt-3'>
-                        <ImageSelector images={images} />
+                        <ImageSelector images={(product?.images as ImageData[]) || []} />
+
                     </div>
                     <div className='col-md'>
                         <div className='row'>

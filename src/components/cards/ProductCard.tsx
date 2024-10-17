@@ -20,7 +20,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             price: product.price,
             quantity: product.quantity,
             description: product.description,
-            image: product.image,
+            // image: product.image,
             itemQty: 1,
             finalPrice: price,
         }
@@ -29,12 +29,12 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     }
 
     const handleProductView = ()=>{
-        window.location.href = `#/product/${product.id}`;
+        window.location.href = `#/product/${product.name}`;
     }
 
     const setTprice = ()=>{
         var getIndx = product.quantitysize?.indexOf(product.quantity);
-        var price = product.price[getIndx || 0];
+        var price = product.price[getIndx == -1 ? 0 : getIndx || 0];
         setprice(price);
     }
 
@@ -45,13 +45,13 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     return (
 
         <div className='m-4'>
-            <Card className="product-card" style={{ width: '18rem' }} >
+            <Card className="product-card" style={{ width: '18rem', minHeight:"420px", maxHeight:"500px" }} >
                 <Card.Img variant="top" src={img1} onClick={handleProductView} />
                 <Card.Body >
                     <Card.Title onClick={handleProductView}>{product.name}</Card.Title>
-                    <Card.Subtitle onClick={handleProductView} >{`${product.quantity} pcs - $${price}`}</Card.Subtitle>
+                    <Card.Subtitle onClick={handleProductView} >{`${product.quantity} ml - ₹${price}`}</Card.Subtitle>
                     <Card.Text className="mt-2" onClick={handleProductView}>
-                        {product.description}
+                        {product.description.slice(0, 60) + '...'}
                     </Card.Text>
                     <div className="row">
                         <button className="CartBtn col" onClick={() => handleCart(product)}>

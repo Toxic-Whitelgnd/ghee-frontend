@@ -97,7 +97,7 @@ export default function NavBar() {
                                 <NavDropdown.Item href="#/orders">
                                     Your Orders
                                 </NavDropdown.Item>{
-                                    isAdmin ? <NavDropdown.Item href="#admin">
+                                    isAdmin ? <NavDropdown.Item href="#/admin">
                                         Admin Dashboard
                                     </NavDropdown.Item> : ""
                                 } <NavDropdown.Divider />

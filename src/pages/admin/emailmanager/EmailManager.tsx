@@ -23,7 +23,7 @@ const EmailTemplateManager: React.FC = () => {
         title: '',
         subject: '',
         body: '',
-        status: 'Preparation',
+        status: 'PREPARATION',
         isdefault: false,
     });
     const [show, setShow] = useState(false);
@@ -38,7 +38,7 @@ const EmailTemplateManager: React.FC = () => {
     const handleShowModal = () => setShowModal(true);
 
     const handleCloseModal = () => {
-        setNewTemplate({ id: 0, title: '', subject: '', body: '', status: 'Preparation', isdefault: false });
+        setNewTemplate({ id: 0, title: '', subject: '', body: '', status: 'PREPARATION', isdefault: false });
         setShowModal(false);
     };
 
@@ -47,7 +47,7 @@ const EmailTemplateManager: React.FC = () => {
         if (newTemplate.id) {
             // Check for existing templates with the same status and default
             const isDuplicate = templates.some(t =>
-                t.id !== newTemplate.id && t.status === newTemplate.status && t.isdefault === newTemplate.isdefault
+                t.status === newTemplate.status && t.isdefault === newTemplate.isdefault
             );
 
             if (isDuplicate) {
@@ -64,8 +64,18 @@ const EmailTemplateManager: React.FC = () => {
             }
         } else {
             // Add new template
-            setTemplates([...templates, { ...newTemplate, id: templates.length + 1 }]);
-            await EmailTemplateManagerAdd(newTemplate, dispatch);
+            //Check before updating the existing template
+            const isDuplicate = templates.some(t =>
+                t.status === newTemplate.status && t.isdefault === newTemplate.isdefault
+            );
+            if (isDuplicate) {
+                // Handle case where a duplicate status and default template is found
+                toast.error("A template with the same status and default already exists. Update failed.");
+            } else {
+                setTemplates([...templates, { ...newTemplate, id: templates.length + 1 }]);
+                await EmailTemplateManagerAdd(newTemplate, dispatch);
+            }
+
         }
 
         handleCloseModal();
@@ -231,10 +241,10 @@ const EmailTemplateManager: React.FC = () => {
                                 title={newTemplate.status}
                                 onSelect={handleDropdownChange}
                             >
-                                <Dropdown.Item eventKey="Preparation">Preparation</Dropdown.Item>
-                                <Dropdown.Item eventKey="Ready">Ready</Dropdown.Item>
-                                <Dropdown.Item eventKey="Out for Delivery">Out for Delivery</Dropdown.Item>
-                                <Dropdown.Item eventKey="Delivered">Delivered</Dropdown.Item>
+                                <Dropdown.Item eventKey="PREPARATION">InPreparation</Dropdown.Item>
+                                <Dropdown.Item eventKey="READY">Ready</Dropdown.Item>
+                                <Dropdown.Item eventKey="OUTFORDELIVERY">OutForDelivery</Dropdown.Item>
+                                <Dropdown.Item eventKey="DELIVERED">Delivered</Dropdown.Item>
                             </DropdownButton>
                         </Form.Group>
                         <Form.Group controlId="formDefaultCheckbox" className="mt-3">

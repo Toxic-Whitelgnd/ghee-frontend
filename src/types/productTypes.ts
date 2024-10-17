@@ -19,6 +19,12 @@ export interface ImageData {
     data: string; // Base64 encoded data
 }
 
+export interface ImageDatas {
+    fileName: string;
+    contentType: string;
+    data: string; // Base64 encoded data
+}
+
 export interface Product{
     id: number,
     name: string;

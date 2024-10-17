@@ -16,6 +16,7 @@ export interface Items {
     instock?: boolean;
     itemQty?:number;
     finalPrice?: number;
+    status?: string;
 }
 
 export interface Order {
@@ -26,3 +27,39 @@ export interface Order {
     note?: string;             // Optional customer note
     createdAt: Date;           // Date of the order creation
 }
+
+// types/cartTypes.ts
+
+export interface ItemModel {
+    name: string;
+    price: number[]; // Assuming price can be an array of numbers (based on your backend)
+    quantity: number;
+    description: string;
+    quantitySize: number[]; // Assuming quantitySize can be an array of numbers
+    offerPrice: number;
+    inStock: boolean;
+    itemQty: number;
+    finalPrice: number;
+    status: string;
+  }
+  
+  export interface OrderModel {
+    id: string; // ObjectId will be converted to string in JSON
+    username: string;
+    mobilenumber: string;
+    emailaddress: string;
+    address: string;
+    pincode: number;
+    state: string;
+    district: string;
+    items: ItemModel[];
+    totalAmount: number;
+    receipt: string;
+    note: string;
+    createdAt: Date;
+    orderid: string;
+    paymentid: string;
+    paymentsignature: string;
+    status?: string;
+  }
+  

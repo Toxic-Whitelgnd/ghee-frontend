@@ -2,6 +2,7 @@ import { toast } from "react-toastify"
 import { EmailTemplate, EmailTemplateDTO, EmailTemplateAllResponse } from "../types/emailTypes"
 import axios, { AxiosResponse } from "axios"
 import { APIS, EMAIL } from "../utils/constants"
+import { EmailDTO } from "../types/orderTypes"
 
 export const EmailTemplateManagerAdd = async (emailTemplate: EmailTemplate, dispatch: any) => {
     const etdto: EmailTemplateDTO = {
@@ -58,6 +59,19 @@ export const EmailTemplateManagerDelete = async (emailTemplate: EmailTemplate) =
         }
     } catch (error) {
         toast.error("Failed to delete the email template")
+        return false;
+    }
+}
+
+export const EmailSender = async (email: EmailDTO) =>{
+    try {
+        const response = await axios.put(`${APIS.API}${APIS.CONTEXT}${EMAIL.EMAIL}${EMAIL.ADMIN}`, email);
+        if (response.status === 200) {
+            toast.success("Email delivered successfully");
+            return true;
+        }
+    } catch (error) {
+        toast.error("Failed to deliver the email template")
         return false;
     }
 }

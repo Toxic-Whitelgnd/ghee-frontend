@@ -1,15 +1,29 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Image, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Image } from 'react-bootstrap';
+
+// Define the structure for images with base64 encoding
+interface ImageData {
+    fileName: string;
+    contentType: string;
+    data: string; // Base64 encoded data
+}
 
 interface ImageSelectorProps {
-    images: string[]; // Array of image URLs
+    images: ImageData[]; // Array of images with base64 data
 }
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({ images }) => {
-    const [mainImage, setMainImage] = useState<string>(images[0]); // Set the first image as the main image by default
+    // Initialize the main image to the first image's data URL
+    const [mainImage, setMainImage] = useState<string>(
+        images.length > 0
+            ? `data:${images[0].contentType};base64,${images[0].data}`
+            : ''
+    );
 
-    const handleImageClick = (img: string) => {
-        setMainImage(img); // Set clicked image as the main image
+    const handleImageClick = (img: ImageData) => {
+        // Construct the image source using base64 data
+        const imageUrl = `data:${img.contentType};base64,${img.data}`;
+        setMainImage(imageUrl);
     };
 
     return (
@@ -18,7 +32,11 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ images }) => {
                 {/* Main image display */}
                 <Col xs={12} md={8}>
                     <Card className="p-3" style={{ maxWidth: '800px', height: '300px' }}>
-                        <Image src={mainImage} style={{ objectFit: 'contain', width: '100%', height: '100%' }} rounded />
+                        {mainImage ? (
+                            <Image src={mainImage} style={{ objectFit: 'contain', width: '100%', height: '100%' }} rounded />
+                        ) : (
+                            <p>No Image Selected</p>
+                        )}
                     </Card>
                 </Col>
             </Row>
@@ -29,10 +47,14 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ images }) => {
                     <Col xs={3} md={2} key={index} className="mb-2">
                         <Card
                             onClick={() => handleImageClick(img)}
-                            className={`p-1 ${mainImage === img ? 'border-primary' : ''}`} // Highlight selected image
+                            className={`p-1 ${mainImage === `data:${img.contentType};base64,${img.data}` ? 'border-primary' : ''}`} // Highlight selected image
                             style={{ cursor: 'pointer' }}
                         >
-                            <Image src={img} thumbnail />
+                            <Image
+                                src={`data:${img.contentType};base64,${img.data}`}
+                                thumbnail
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
                         </Card>
                     </Col>
                 ))}
