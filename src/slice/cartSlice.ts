@@ -11,7 +11,7 @@ const cartSlice = createSlice({
     reducers: {
         addItem: (state, action: PayloadAction<Items>) => {
             const existingItem = state.cartItems.find(item =>
-                item.id === action.payload.id && item.quantity === action.payload.quantity && item.finalPrice === action.payload.finalPrice
+                item.name === action.payload.name && item.quantity === action.payload.quantity && item.finalPrice === action.payload.finalPrice
             );
            
             if (existingItem) {
@@ -26,20 +26,20 @@ const cartSlice = createSlice({
         },
         removeItem: (state, action: PayloadAction<Items>) => {
             const existingItem = state.cartItems.find(item =>
-                item.id === action.payload.id && item.quantity === action.payload.quantity && item.finalPrice === action.payload.finalPrice
+                item.name === action.payload.name && item.quantity === action.payload.quantity && item.finalPrice === action.payload.finalPrice
             );
 
             if (existingItem) {
                 // If the quantity is 1, remove the item from the cart
                 state.cartItems = state.cartItems.filter(item =>
-                    item.id !== action.payload.id || item.quantity !== action.payload.quantity 
+                    item.name !== action.payload.name || item.quantity !== action.payload.quantity 
                 );
 
             }
         },
         increaseItemQty: (state, action: PayloadAction<Items>) => {
             const existingItem = state.cartItems.find(item =>
-                item.id === action.payload.id && item.itemQty === action.payload.itemQty && item.finalPrice === action.payload.finalPrice
+                item.name === action.payload.name && item.itemQty === action.payload.itemQty && item.finalPrice === action.payload.finalPrice
             );
             if (existingItem) {
                 existingItem.itemQty = (existingItem.itemQty || 1) + 1; // Increment itemQty
@@ -47,7 +47,7 @@ const cartSlice = createSlice({
         },
         decreaseItemQty: (state, action: PayloadAction<Items>) => {
             const existingItem = state.cartItems.find(item =>
-                item.id === action.payload.id && item.itemQty === action.payload.itemQty && item.finalPrice === action.payload.finalPrice
+                item.name === action.payload.name && item.itemQty === action.payload.itemQty && item.finalPrice === action.payload.finalPrice
             );
             if (existingItem && existingItem.itemQty && existingItem.itemQty > 1) {
                 existingItem.itemQty -= 1;
@@ -59,7 +59,7 @@ const cartSlice = createSlice({
         },
         updateItemQuantity: (state, action) => {
             const { id, newQuantity } = action.payload;
-            const item = state.cartItems.find(item => item.id === id);
+            const item = state.cartItems.find(item => item.name === id);
             if (item) {
                 item.itemQty = newQuantity;
             }

@@ -6,6 +6,7 @@ import CartCard from '../../components/cards/CartCard';
 import { toast } from 'react-toastify';
 import "../../styles/global.css"
 import { selectUser } from '../../slice/userSlice';
+import EmptyCart from '../../components/pages/EmptyCart';
 
 export default function Cart() {
     const carts = useSelector(selectCartItems);
@@ -73,7 +74,7 @@ export default function Cart() {
                                 </table>
                                 <div className="float-right text-right">
                                     <h4>Subtotal:</h4>
-                                    <h1>${getTotal()}</h1>
+                                    <h1>₹{getTotal()}</h1>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +90,7 @@ export default function Cart() {
                                         <div className="post">
                                             <div className="post-line"></div>
                                             <div className="screen">
-                                                <div className="dollar">$</div>
+                                                <div className="dollar">₹</div>
                                             </div>
                                             <div className="numbers"></div>
                                             <div className="numbers-line2"></div>
@@ -115,7 +116,9 @@ export default function Cart() {
                     </div>
                 </section>
 
-                : <div><h1>Your cart is empty</h1></div>}
+                : <div>
+                <EmptyCart />
+                </div>}
 
         </div>
     )

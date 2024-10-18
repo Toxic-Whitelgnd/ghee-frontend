@@ -8,11 +8,14 @@ import { toast } from 'react-toastify';
 import { selectUser } from '../../slice/userSlice';
 import { orderServiceCreate, orderServiceUpdate } from '../../services/orderServices';
 import { OrderResponse, PaymentIds } from '../../types/orderTypes';
+import Loader from '../../components/cards/Loader';
 
 const OrdersPage: React.FC = () => {
     const carts: Items[] = useSelector(selectCartItems); // Select cart items from the store
     const [customerNote, setCustomerNote] = useState<string>(''); // State for the customer's note
     const [orders, setOrders] = useState<Order[]>([]); // State to hold order details
+    const [loading, setLoading] = useState<boolean>(false); 
+
     const navigate = useNavigate();
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
@@ -22,6 +25,7 @@ const OrdersPage: React.FC = () => {
 
     // Checkout handler to create an order with note and receipt
     const handleCheckout =  async () => {
+        setLoading(true);
         const newOrder: Order = {
             id: Math.floor(Math.random() * 1000), 
             items: carts,
@@ -71,12 +75,19 @@ const OrdersPage: React.FC = () => {
             rzp1.on("payment.failed", (response: any) => {
               alert(`Payment Failed: ${response.error.description}`);
               alert(`Reason: ${response.error.reason}`);
+              OnPaymentFail(response);
             });
-        
+            
+            setLoading(false);
+
             rzp1.open();
       
         }
     };
+
+    const OnPaymentFail = (response: any)=>{
+        window.location.href = `#/failure`
+    }
 
     const onSuccess =  async (razor_res : any ) =>{
         // send the payemnt signature id to the server update by orderid
@@ -88,14 +99,17 @@ const OrdersPage: React.FC = () => {
         }
         const res = await orderServiceUpdate(payment);
         if(res){
-            //TODO: SET LOADER
             dispatch(clearCart());
-            window.location.href = '#/'
+            window.location.href = '#/success'
         }
 
     }
     return (
         <Container className='common-container'>
+            {loading ? ( // Show loader if loading is true
+        <Loader />
+      ) : (
+        <>
             <h2 className="my-4">Your Orders</h2>
 
             {carts.length > 0 ? (
@@ -115,7 +129,7 @@ const OrdersPage: React.FC = () => {
                                 <tr key={item.id}>
                                     <td>{item.name}</td>
                                     <td>{item.itemQty}</td>
-                                    <td>{item.quantity}</td>
+                                    <td>{item.quantity}ml</td>
                                     <td>{item.finalPrice?.toFixed(2) || item.price[0].toFixed(2)}</td>
                                     <td>
                                         {(item.finalPrice
@@ -157,6 +171,8 @@ const OrdersPage: React.FC = () => {
             ) : (
                 <h5>No items in the cart!</h5>
             )}
+        </>
+    )}
         </Container>
     );
 };

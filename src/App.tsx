@@ -12,6 +12,9 @@ import YourOrders from './pages/profile/YourOrders';
 import ProductView from './pages/products/ProductView';
 import BillingDetailsPage from './pages/checkout/checkoutDetails';
 import OrdersPage from './pages/checkout/checkoutOrders';
+import NotFoundPage from './components/pages/NotFoundPage';
+import PaymentSucess from './components/pages/PaymentSucess';
+import PaymentFailure from './components/pages/PaymentFailure';
 
 function App() {
   
@@ -31,6 +34,9 @@ function App() {
                 <Route path='/orders' element={<YourOrders />} />
                 <Route path='/checkoutbilling' element={<BillingDetailsPage />} />
                 <Route path='/checkoutorder' element={<OrdersPage />} />
+                <Route path='/success' element={<PaymentSucess />} />
+                <Route path='/failure' element={<PaymentFailure />} />
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </Router>
       </MainLayout>

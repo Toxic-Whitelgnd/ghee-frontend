@@ -54,18 +54,19 @@ const ProductView = () => {
     };
 
     const handleCart = (product: Product) => {
+        const finalprice = product?.offerpercentage != 0 ? calculatePrice(price, product?.offerpercentage) : price;
         const items: Items = {
             id: product.id,
             name: product.name,
             price: product.price,
             quantity: (selectedQuantity || product.quantity),
             description: product.description,
-            // image: product.images,
+            images: product.images,
             itemQty: tempQty,
             quantitysize: product.quantitysize,
             instock: product.instock,
             offerprice: product.offerpercentage,
-            finalPrice: price
+            finalPrice: finalprice
         }
         console.log(items);
         dispatch(addItem(items));
@@ -107,7 +108,7 @@ const ProductView = () => {
                                 <span className='m-3'>({product?.ratings})</span>
                             </div>
                             <h5 className='mt-2'>Rs.{product?.offerpercentage != 0 ? <><del>{price}</del> {calculatePrice(price, product?.offerpercentage)}   
-                            <span className='ms-3 '>{product?.offerpercentage}% off</span> </>
+                            <span className='ms-3 '>{product?.offerpercentage != 0 ? <>{product?.offerpercentage}% off </> : <></>}</span> </>
                              : price}</h5>
                             <h3 className='mt-3'>Size</h3>
                             <p>Selected Quantity: {selectedQuantity ? `${selectedQuantity}ml` : 'None'}</p>

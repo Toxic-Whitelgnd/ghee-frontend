@@ -10,6 +10,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 import "../styles/global.css"
+import PaymentSucess from '../components/pages/PaymentSucess';
 
 export default function Home() {
     useEffect(() => {
@@ -22,7 +23,6 @@ export default function Home() {
                 <div className='home-carousel-container'>
                 <CarouselBanner />
                 </div>
-                
                 <div>
                     <div className='blogbg overflow-x-hidden'>
                         <div className='row align-items-center'>

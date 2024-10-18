@@ -8,7 +8,7 @@ export interface Items {
     price: number[],
     quantity:number,
     description:string,
-    images?:string,
+    images?: (File | ImageData)[];
     quantitysize?: number[];
     ratings?: number;
     ratingStar?: string;
@@ -17,6 +17,12 @@ export interface Items {
     itemQty?:number;
     finalPrice?: number;
     status?: string;
+}
+
+export interface ImageData {
+    fileName: string;
+    contentType: string;
+    data: string; // Base64 encoded data
 }
 
 export interface Order {

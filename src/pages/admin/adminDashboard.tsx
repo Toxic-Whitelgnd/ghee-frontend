@@ -10,6 +10,9 @@ import { EmailSender } from '../../services/emailService';
 import { toast } from 'react-toastify';
 import SettingsPage from './settings';
 import Loader from '../../components/cards/Loader';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../slice/userSlice';
+import ForbidenPage from '../../components/pages/ForbidenPage';
 
 interface Order {
   title: string;
@@ -28,6 +31,8 @@ export default function AdminDashboard() {
   const [selectedOrder, setSelectedOrder] = useState<OrderModel | null>(null);
   const [orderStatus, setOrderStatus] = useState('PREPARATION');
   const [loading, setLoading] = useState<boolean>(true);
+
+  const user = useSelector(selectUser);
 
   const handleSelect = (eventKey: any) => {
     setStatus(eventKey);
@@ -74,6 +79,8 @@ export default function AdminDashboard() {
   //TODO: NEED TO FILTER BY DATE
   return (
     <div className='common-container'>
+      {user.roles?.some(role => role === "ADMIN") && user.isloggedin ? <>
+      
       <h1>Admin Page</h1>
       <div>
         <Container>
@@ -230,6 +237,9 @@ export default function AdminDashboard() {
           </Tab.Container>
         </Container>
       </div>
+      </> : <>
+      <ForbidenPage />
+      </>}
     </div>
   )
 }

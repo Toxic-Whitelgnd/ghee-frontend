@@ -3,55 +3,83 @@ import "../cards/cards.css"
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import img1 from "../../assets/images/image.png";
-import { Product, ProductProps } from "../../types/productTypes";
+import { ImageData, Product, ProductProps } from "../../types/productTypes";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../slice/cartSlice";
 import { Items } from "../../types/cartTypes";
 import { useEffect, useState } from "react";
+import { calculatePrice } from "../../utils/helperFunctions";
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
-    const [price,setprice] = useState(1);
+    const [price, setprice] = useState(1);
     const dispatch = useDispatch();
-    const handleCart = (product : Product)=>{
+    const handleCart = (product: Product) => {
+        const finalprice = product?.offerpercentage != 0 ? calculatePrice(price, product?.offerpercentage) : price;
         const items: Items = {
             id: product.id,
             name: product.name,
             price: product.price,
             quantity: product.quantity,
             description: product.description,
-            // image: product.image,
+            images: product.images,
             itemQty: 1,
-            finalPrice: price,
+            finalPrice: finalprice,
         }
         dispatch(addItem(items));
         toast.success(`${product.name} has been added to cart successfully`);
     }
 
-    const handleProductView = ()=>{
+    const handleProductView = () => {
         window.location.href = `#/product/${product.name}`;
     }
 
-    const setTprice = ()=>{
+    const setTprice = () => {
         var getIndx = product.quantitysize?.indexOf(product.quantity);
         var price = product.price[getIndx == -1 ? 0 : getIndx || 0];
         setprice(price);
     }
 
-    useEffect(()=>{
+    const { images } = product;  // Assuming images?: (File | string)[];
+    const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        if (images && images.length > 0) {
+          const firstImage = images[0] as ImageData;
+        
+          if (firstImage.data && firstImage.contentType) {
+            // Construct the base64 URL for the image
+            const base64ImageUrl = `data:${firstImage.contentType};base64,${firstImage.data}`;
+            setImageSrc(base64ImageUrl);
+          }
+        }
+      }, [images]);
+
+    useEffect(() => {
         setTprice();
-    },[]);
+    }, []);
 
     return (
 
         <div className='m-4'>
-            <Card className="product-card" style={{ width: '18rem', minHeight:"420px", maxHeight:"500px" }} >
-                <Card.Img variant="top" src={img1} onClick={handleProductView} />
+            <Card className="product-card" style={{ width: '18rem', minHeight: "420px", maxHeight: "500px" }} >
+                {imageSrc ? (
+                    <Card.Img variant="top" src={imageSrc} onClick={handleProductView} />
+                ) : (
+                    <Card.Img variant="top" src={img1} onClick={handleProductView} />
+                )}
                 <Card.Body >
                     <Card.Title onClick={handleProductView}>{product.name}</Card.Title>
-                    <Card.Subtitle onClick={handleProductView} >{`${product.quantity} ml - ₹${price}`}</Card.Subtitle>
+                    <Card.Subtitle onClick={handleProductView} >{`${product.quantity} ml - ₹`}
+                        {product.offerpercentage != 0 ? (
+                            <>
+                                <del>{price}</del> {calculatePrice(price, product.offerpercentage)}
+                            </>
+                        ) : (
+                            price
+                        )}</Card.Subtitle>
                     <Card.Text className="mt-2" onClick={handleProductView}>
-                        {product.description.slice(0, 60) + '...'}
+                        {product.description.slice(0, 80) + '...'}
                     </Card.Text>
                     <div className="row">
                         <button className="CartBtn col" onClick={() => handleCart(product)}>

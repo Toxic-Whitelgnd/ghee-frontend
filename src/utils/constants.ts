@@ -37,4 +37,5 @@ export const ORDER = {
 
 export const SETTING = {
     SETTING: '/settings',
+    ADMINACCESS: '/adminaccess'
 }

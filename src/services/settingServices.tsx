@@ -27,3 +27,35 @@ export const settingServiceGet = async() : Promise<Settings | undefined >=>{
         return undefined;
     }
 }
+
+export const settingServiceAdminAccess = async(emailAddress : String) => {
+    const adminaccessdto = {
+        emailaddress: emailAddress,
+        revoke: false,
+    }
+    try {
+        const res:AxiosResponse<String> = await axios.post(`${APIS.API}${APIS.CONTEXT}${SETTING.SETTING}${SETTING.ADMINACCESS}`,
+            adminaccessdto
+        );
+        console.log(res);
+        toast.success(res.data);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const settingServiceAdminRevoke  = async(emailAddress : String) => {
+    const adminaccessdto = {
+        emailaddress: emailAddress,
+        revoke: true,
+    }
+    try {
+        const res:AxiosResponse<String> = await axios.post(`${APIS.API}${APIS.CONTEXT}${SETTING.SETTING}${SETTING.ADMINACCESS}`,
+            adminaccessdto
+        );
+        console.log(res);
+        toast.success(res.data);
+    } catch (error) {
+        console.log(error);
+    }
+}
