@@ -2,9 +2,18 @@
   --primary:#EFC850;
   --secondary:#FADA5E;
   --tertiary:#FDFD96;
-  --quadinary:#F5E050;
+  --quadinary:#FABF21;
   --primaryfont:'Kanit', sans-serif;
   --headingfont:'Dancing Script', cursive;
   --bodyfont:'lobster', cursive;
   --secondaryfont:'Rajdhani', sans-serif;
+}
+
+body,p {
+  font-family: 'Rollgates', sans-serif;
+}
+
+h1,h5,h4,h3 {
+  font-family: 'Rollgates Bold', serif;
+  font-weight: bold;
 }

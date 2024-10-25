@@ -15,8 +15,31 @@ import OrdersPage from './pages/checkout/checkoutOrders';
 import NotFoundPage from './components/pages/NotFoundPage';
 import PaymentSucess from './components/pages/PaymentSucess';
 import PaymentFailure from './components/pages/PaymentFailure';
+import { useEffect, useState } from 'react';
+import { Product } from './types/productTypes';
+import { productServiceGet } from './services/apiServices';
+import { setProduct } from './slice/productSlice';
+import { useDispatch } from 'react-redux';
 
 function App() {
+
+  const [products, setProducts] = useState<Product[] | null>([]);
+  const dispatch = useDispatch();
+  
+  const fetchProducts = async () => {
+ 
+    const res = await productServiceGet();
+    if (res !== undefined) {
+      setProducts(res);
+      console.log(res);
+      res.forEach(p => dispatch(setProduct(p)));
+    }
+
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
   
   return (
     <>

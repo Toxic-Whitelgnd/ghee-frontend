@@ -3,6 +3,7 @@ import NavBar from '../components/navbar/NavBar'
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Home from '../pages/Home';
 import Footer from '../components/footer/Footer';
+import ContactButton from '../components/floatingButton/FloatingButton';
 
 interface MainLayoutProps {
     children: ReactNode; 
@@ -19,6 +20,7 @@ interface MainLayoutProps {
           {children} 
         </div>
         <Footer />
+        <ContactButton />
       </>
     );
   };

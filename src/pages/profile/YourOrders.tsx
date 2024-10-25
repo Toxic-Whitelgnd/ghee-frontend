@@ -6,6 +6,7 @@ import { orderServiceGet } from '../../services/orderServices';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../slice/userSlice';
 import ForbidenPage from '../../components/pages/ForbidenPage';
+import EmptyOrder from '../../components/pages/EmptyOrder';
 
 // Sample orders data for now; in real use, you'll fetch it from the server
 const orders: OrderModel[] = [
@@ -84,7 +85,11 @@ const YourOrders: React.FC = () => {
                 </Card.Body>
               </Card>
             ))}
-
+            {orders == null || orders.length == 0 && (
+              <>
+              <EmptyOrder />
+              </>
+            )}
           </>
       }
     </div>

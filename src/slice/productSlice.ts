@@ -15,7 +15,7 @@ const productIntialState: Product = {
     description:"sdfsd fsd fsd sdfsdf sdf sd f",
 }
 const initialState: ProductItems = {
- products: [productIntialState],
+ products: [],
 }
 
 
@@ -38,6 +38,8 @@ export const productSlice = createSlice(
 export const {setProduct} = productSlice.actions;
 
 export const selectProduct = (state : {product : Product}) => state.product;
+
+export const selectProducts = (state: { product: ProductItems }) => state.product.products;
 
 export const selectProductById = (state: { product: { products: Product[] } }, id: number | undefined) =>
     state.product.products.find((product) => product.id === id);
