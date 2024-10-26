@@ -17,7 +17,11 @@ export const EMAIL = {
 }
 
 export const PRODUCT = {
-    PRODUCT: '/product'
+    PRODUCT: '/product',
+    IMAGES: '/addimages',
+    NEWUPDATE:'/newupdate',
+    NEWGET:'/newget',
+    NEWDELETE:'/newdelete'
 }
 
 export const PROFILE = {

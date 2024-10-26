@@ -64,7 +64,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <div className='m-4'>
             <Card className="product-card" style={{ width: '18rem', minHeight: "420px", maxHeight: "500px" }} >
                 {imageSrc ? (
-                    <Card.Img variant="top" src={imageSrc} onClick={handleProductView} />
+                    <Card.Img variant="top" style={{width:"300px", height:"220px"}} src={imageSrc} onClick={handleProductView} />
                 ) : (
                     <Card.Img variant="top" src={img1} onClick={handleProductView} />
                 )}

@@ -46,22 +46,15 @@ const EmailTemplateManager: React.FC = () => {
 
         if (newTemplate.id) {
             // Check for existing templates with the same status and default
-            const isDuplicate = templates.some(t =>
-                t.status === newTemplate.status && t.isdefault === newTemplate.isdefault
-            );
 
-            if (isDuplicate) {
-                // Handle case where a duplicate status and default template is found
-                toast.error("A template with the same status and default already exists. Update failed.");
-            } else {
-                // Proceed with updating the existing template
-                setTemplates(templates.map(t => (t.id === newTemplate.id ? newTemplate : t)));
-                console.log(newTemplate);
+            // Proceed with updating the existing template
+            setTemplates(templates.map(t => (t.id === newTemplate.id ? newTemplate : t)));
+            console.log(newTemplate);
 
-                // Update the template in the backend
-                await EmailTemplateManagerUpdate(newTemplate);
+            // Update the template in the backend
+            await EmailTemplateManagerUpdate(newTemplate);
 
-            }
+
         } else {
             // Add new template
             //Check before updating the existing template

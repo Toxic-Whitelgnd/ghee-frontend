@@ -6,21 +6,11 @@ import img2 from "../assets/images/gheetop1.png";
 import img3 from "../assets/images/Home2.png";
 import img4 from "../assets/images/gheetop2.png";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 import "../styles/global.css"
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
-
-// import required modules
-import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
-
+import SwiperCard from '../components/swiper/SwiperCard';
 
 export default function Home() {
     useEffect(() => {
@@ -100,58 +90,9 @@ export default function Home() {
                     </div>
                 </div>
                 <div>
-        
+
                     <div className='m-lg-5'>
-                        <Swiper
-                            effect={'coverflow'}
-                            grabCursor={true}
-                            centeredSlides={true}
-                            slidesPerView={4}
-                            loop={true}
-                            autoplay={{
-                                delay: 3000,
-                                disableOnInteraction: false
-                            }}
-                            coverflowEffect={{
-                                rotate: 50,
-                                stretch: -100,
-                                depth: 500,
-                                modifier: 1,
-                                slideShadows: true,
-                            }}
-                            
-                            pagination={true}
-                            modules={[EffectCoverflow, Pagination, Autoplay]}
-                            className="mySwiper"
-                        >
-                            <SwiperSlide>
-                                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-                            </SwiperSlide>
-                        </Swiper>
+                        <SwiperCard />
                     </div>
                 </div>
                 <div className='home-img-bottom'>

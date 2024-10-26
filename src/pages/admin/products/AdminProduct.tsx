@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Table, Modal } from "react-bootstrap";
-import { Product, ImageData } from "../../../types/productTypes";
+import { Product, ImageData, ProductImages } from "../../../types/productTypes";
 import { toast } from "react-toastify";
-import { productManagerAdd, productManagerDelete, productManagerGet, productManagerUpdate } from "../../../services/productServices";
+import { productManagerAdd, productManagerDelete, productManagerGet, productManagerUpdate, productSeriveGet, productServiceDelete, productServicesUploadImages, productServiceUpdate } from "../../../services/productServices";
 
 //TODO: NEED TO ADD EDIT , DELETE AND GET PRODUCT
 
@@ -28,16 +28,27 @@ const ProductManager: React.FC = () => {
     const [showModal, setShowModal] = useState(false); // Controls the modal visibility
     const [priceInput, setPriceInput] = useState(""); // Input for product prices
     const [quantitySizeInput, setQuantitySizeInput] = useState(""); // Input for product quantity sizes
+    const [pimages, setImages] = useState<ImageData[]>([]);
 
     // Handle changes for product fields
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
+      
         setProduct({
             ...product,
             [name]: value,
         });
 
     };
+
+    const handleQuantitychange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
+        const val = parseInt(e.target.value);
+        console.log(val);
+        setProduct({
+            ...product,
+            quantity:val,
+        })
+    }
 
     // Handle price and quantity size inputs
     const handleAddPrice = () => {
@@ -78,10 +89,11 @@ const ProductManager: React.FC = () => {
             // Update the existing product
             const imageFiles: File[] = product.images?.filter(isFile) || []; // Filter only File instances
             const imageData: ImageData[] = product.images?.filter((img) => !isFile(img)) as ImageData[]; // Filter only ImageData instances
-        
+
             console.log("edited product", editingProduct);
             // Make sure to pass both imageFiles and imageData if needed
-            const res = await productManagerUpdate(product, imageFiles, imageData);
+            // const res = await productManagerUpdate(product, imageFiles, imageData);
+            const res = await productServiceUpdate(product);
             if (res) {
                 setProducts((prevProducts) =>
                     prevProducts.map((p) => (p.id === res.id ? res : p))
@@ -90,10 +102,13 @@ const ProductManager: React.FC = () => {
                 toast.error('Failed to add the product');
             }
         } else {
-            // Add a new product
-            const imageFiles = product.images?.filter((img) => img instanceof File) as File[];
-
-            const res = await productManagerAdd(product, imageFiles);
+            console.log(product);
+            const productimages : ProductImages ={
+                name: product.name,
+                images: pimages
+            }
+            const res = await productManagerAdd(product,productimages);
+            // await productServicesUploadImages(productimages);
             if (res) {
                 setProducts((prevProducts) => [...prevProducts, res]);
             } else {
@@ -107,9 +122,9 @@ const ProductManager: React.FC = () => {
 
     // Handle deleting a product
     const handleDelete = async (product: Product) => {
-        const res = await productManagerDelete(product)
+        const res = await productServiceDelete(product)
         if (res) {
-            setProducts(products.filter(p => p.id !== product.id));
+            setProducts(products.filter(p => p.name !== product.name));
         }
 
     };
@@ -121,12 +136,28 @@ const ProductManager: React.FC = () => {
         setShowModal(true); // Open modal for editing
     };
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (files) {
-            setProduct({
-                ...product,
-                images: [...product.images!, ...Array.from(files)],  // Store selected files in the product state
+            const newImagesPromises: Promise<ImageData>[] = Array.from(files).map((file) => {
+                return new Promise<ImageData>((resolve) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file); // Read as base64
+                    reader.onloadend = () => {
+                        if (reader.result) {
+                            resolve({
+                                fileName: file.name,
+                                contentType: file.type,
+                                data: reader.result as string, // Cast to string (base64)
+                            });
+                        }
+                    };
+                });
+            });
+            console.log(pimages);
+            // Use Promise.all to wait for all files to be processed
+            Promise.all(newImagesPromises).then((imageData) => {
+                setImages((prevImages) => [...prevImages, ...imageData]);
             });
         }
     };
@@ -146,15 +177,12 @@ const ProductManager: React.FC = () => {
     };
 
     const handleRemoveImage = (index: number) => {
-        setProduct((prevProduct) => ({
-            ...prevProduct,
-            images: prevProduct.images!.filter((_, i) => i !== index), // Filter out the image at the specified index
-        }));
-    };
+        setImages((prevImages) => prevImages.filter((_, i) => i !== index)); // Remove the image at the specified index
+      };
 
     //TODO: SHOULD MOVE
     const getProductlist = async () => {
-        const product = await productManagerGet();
+        const product = await productSeriveGet();
         if (product) {
             setProducts(product);
         }
@@ -226,6 +254,7 @@ const ProductManager: React.FC = () => {
                                 value={product.name}
                                 onChange={handleChange}
                                 required
+                                disabled={editingProduct? true: false}
                             />
                         </Form.Group>
 
@@ -303,7 +332,7 @@ const ProductManager: React.FC = () => {
                                 as="select"
                                 name="quantity"
                                 value={product.quantity}
-                                onChange={handleChange}
+                                onChange={handleQuantitychange}
                                 required
                             >
                                 {/* Render options based on quantitysize */}
@@ -354,32 +383,49 @@ const ProductManager: React.FC = () => {
                                 type="file"
                                 name="images"
                                 accept="image/*"
-                                onChange={handleImageChange}
+                                onChange={handleImageFileChange}
                                 multiple  // Allow multiple image uploads
+                                disabled={editingProduct ? true : false}
                             />
                             <ul>
-                                {/* Display image names or previews */}
-                                {product.images?.map((image, index) => (
-                                    <li key={index}>
-                                        {/* Check if image is a File or ImageData */}
+                         
+                                {product?.images?.map((image, index) => (
+                                    <li key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                              
                                         {image instanceof File ? (
-                                            // If it's a File object, display its name
                                             <span>{image.name}</span>
                                         ) : (
-                                            // If it's an ImageData object, show the preview
+                                  
                                             <>
                                                 <span>{(image as ImageData).fileName}</span>
-                                                <img
-                                                    src={`data:${(image as ImageData).contentType};base64,${(image as ImageData).data}`}
-                                                    alt={image.fileName}
-                                                    style={{ maxWidth: '100px', maxHeight: '100px', marginLeft: '10px' }}
-                                                />
+                                                <img src={image.data} alt={image.fileName} width="100" />
                                             </>
                                         )}
-                                          <span onClick={() => handleRemoveImage(index)}>Remove</span>
+
+                          
+                                        {!editingProduct && (
+                                            <span
+                                                onClick={() => handleRemoveImage(index)}
+                                                style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }}
+                                            >
+                                                Remove
+                                            </span>
+                                        )}
                                     </li>
                                 ))}
                             </ul>
+
+                            {/* <ul>
+                                {pimages.map((img, index) => (
+                                    <li key={index}>
+                                        <p>{img.fileName.slice(0,20)} - {img.contentType}</p>
+                                 
+                                        <img src={img.data} alt={img.fileName} width="100" />
+                                        <button onClick={() => handleRemoveImage(index)}>Remove</button>
+                                    </li>
+                                ))}
+                            </ul> */}
+
                         </Form.Group>
 
                         <Button variant="primary" type="submit">

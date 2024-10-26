@@ -19,6 +19,11 @@ export interface ImageData {
     data: string; // Base64 encoded data
 }
 
+export interface ProductImages {
+    name: string;
+    images: ImageData[];
+}
+
 export interface ImageDatas {
     fileName: string;
     contentType: string;
@@ -51,6 +56,7 @@ export interface ProductDTO {
     ratings: number;
     ratingStar: string;
     description: string;
+    productImages?: ProductImages;
 }
 
 export interface ProductUpdateDTO {
