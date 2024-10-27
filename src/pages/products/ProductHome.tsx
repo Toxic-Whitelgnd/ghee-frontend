@@ -1,8 +1,12 @@
-import {  useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductCard from '../../components/cards/ProductCard';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectProducts } from '../../slice/productSlice';
 import Loader from "../../components/cards/Loader"; // Import your Loader component
+import { Client, urlFor } from '../../lib/client';
+import { ProductFromSanity } from '../../types/productTypes';
+
+
 
 export default function ProductHome() {
   const [searchTerm, setSearchTerm] = useState<string>(''); // State for search term
@@ -17,8 +21,39 @@ export default function ProductHome() {
 
   // Handle search input change
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value); 
+    setSearchTerm(event.target.value);
   };
+
+  const [productstest, setProducts] = useState<ProductFromSanity[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data: ProductFromSanity[] = await Client.fetch(
+          `*[_type == "product"] {
+            _id,
+            name,
+            offerpercentage,
+            instock,
+            ratings,
+            ratingStar,
+            description,
+            price,
+            quantitysize,
+            images
+          }`
+        );
+        console.log('Fetched data:', data);
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
+  
 
   return (
     <div className='common-container'>
@@ -41,7 +76,7 @@ export default function ProductHome() {
         <div className='d-flex product-container'>
           {filteredProducts.length > 0 ? (
             filteredProducts.map((x) => (
-              <ProductCard key={x.id} product={x} /> // Ensure unique key for each product
+              <ProductCard key={x._id} product={x} /> // Ensure unique key for each product
             ))
           ) : (
             <p>No products found</p>

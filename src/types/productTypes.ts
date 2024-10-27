@@ -76,3 +76,27 @@ export interface ProductUpdateDTO {
 export interface ProductItems {
     products: Product[]
 }
+export interface ProductItemsNew {
+    products: ProductFromSanity[]
+}
+export interface Image {
+    asset: {
+      _id: string;
+      url: string;
+    };
+    caption: string;
+  }
+
+export interface ProductFromSanity{
+    _id:string;
+    name: string;
+    quantity: number;
+    price: number[];
+    description: string;
+    images?: Image[];
+    quantitysize?: number[];
+    ratings?: number;
+    ratingStar?: number;
+    offerpercentage?: number;
+    instock?: boolean;
+}

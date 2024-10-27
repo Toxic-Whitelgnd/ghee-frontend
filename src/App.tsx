@@ -16,14 +16,16 @@ import NotFoundPage from './components/pages/NotFoundPage';
 import PaymentSucess from './components/pages/PaymentSucess';
 import PaymentFailure from './components/pages/PaymentFailure';
 import { useEffect, useState } from 'react';
-import { Product } from './types/productTypes';
+import { Product, ProductFromSanity } from './types/productTypes';
 import { productServiceGet } from './services/apiServices';
-import { setProduct } from './slice/productSlice';
+import { setfromSanityProduct } from './slice/productSlice';
 import { useDispatch } from 'react-redux';
+import { Client } from './lib/client';
 
 function App() {
 
   const [products, setProducts] = useState<Product[] | null>([]);
+  const [productssanity, setProductsSanity] = useState<ProductFromSanity[]>([]);
   const dispatch = useDispatch();
   
   const fetchProducts = async () => {
@@ -31,14 +33,39 @@ function App() {
     const res = await productServiceGet();
     if (res !== undefined) {
       setProducts(res);
-      console.log(res);
-      res.forEach(p => dispatch(setProduct(p)));
+      // res.forEach(p => dispatch(setProduct(p)));
     }
 
   };
 
+  const fetchData = async () => {
+    try {
+      const data: ProductFromSanity[] = await Client.fetch(
+        `*[_type == "product"] {
+          _id,
+          name,
+          offerpercentage,
+          instock,
+          ratings,
+          ratingStar,
+          description,
+          price,
+          quantitysize,
+          images,
+          quantity
+        }`
+      );
+      console.log('Fetched data:', data);
+      setProductsSanity(data);
+      data.forEach(p => dispatch(setfromSanityProduct(p)));
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchData();
   }, []);
   
   return (

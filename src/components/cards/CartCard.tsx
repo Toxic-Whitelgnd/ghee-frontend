@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { clearCart, decreaseItemQty, increaseItemQty, removeItem, updateItemQuantity } from '../../slice/cartSlice';
 import { TrashIcon } from '../../utils/svgIcons';
 import "./cards.css"
+import { urlFor } from '../../lib/client';
 
 interface CartCardProps {
     item: Items;
@@ -11,10 +12,7 @@ interface CartCardProps {
 
 const CartCard = ({ item }: CartCardProps) => {
     const dispatch = useDispatch();
-    
-    const { images } = item;  // Assuming images?: (File | string)[];
-    const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-    
+
     console.log(item);
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +27,11 @@ const CartCard = ({ item }: CartCardProps) => {
         dispatch(removeItem(item));
     };
 
-    const handleIncreaseItemQty = (itemId: number) => {
+    const handleIncreaseItemQty = (itemId: string) => {
         dispatch(increaseItemQty(item));
     };
 
-    const handleDecreaseItemQty = (itemId: number) => {
+    const handleDecreaseItemQty = (itemId: string) => {
         dispatch(decreaseItemQty(item));
     };
 
@@ -42,25 +40,13 @@ const CartCard = ({ item }: CartCardProps) => {
     };
 
 
-    useEffect(() => {
-        if (images && images.length > 0) {
-          const firstImage = images[0] as ImageData;
-        
-          if (firstImage.data && firstImage.contentType) {
-            // Construct the base64 URL for the image
-            const base64ImageUrl = `data:${firstImage.contentType};base64,${firstImage.data}`;
-            setImageSrc(base64ImageUrl);
-          }
-        }
-      }, [images]);
-
     return (
         <>
             <tr className='cart-product'>
                 <td data-th="Product">
                     <div className="row">
                         <div className="col-md-3 text-left">
-                            <img src={imageSrc} alt="" className="img-fluid d-none d-md-block rounded mb-2 shadow " />
+                            <img src={urlFor(item.images!.asset).width(300).height(300).url()} alt="" className="img-fluid d-none d-md-block rounded mb-2 shadow " />
                         </div>
                         <div className="col-md-9 text-left mt-sm-2">
                             <h4>{item.name}</h4>

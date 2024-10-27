@@ -1,29 +1,27 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Image } from 'react-bootstrap';
+import { urlFor } from '../../lib/client';
 
 // Define the structure for images with base64 encoding
-interface ImageData {
-    fileName: string;
-    contentType: string;
-    data: string; // Base64 encoded data
-}
+interface Image {
+    asset: {
+      _id: string;
+      url: string;
+    };
+    caption: string;
+  }
+
 
 interface ImageSelectorProps {
-    images: ImageData[]; // Array of images with base64 data
+    images: Image[]; // Array of images with base64 data
 }
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({ images }) => {
     // Initialize the main image to the first image's data URL
-    const [mainImage, setMainImage] = useState<string>(
-        images.length > 0
-            ? `data:${images[0].contentType};base64,${images[0].data}`
-            : ''
-    );
+    const [mainImage, setMainImage] = useState<Image>(images[0]);
 
-    const handleImageClick = (img: ImageData) => {
-        // Construct the image source using base64 data
-        const imageUrl = `data:${img.contentType};base64,${img.data}`;
-        setMainImage(imageUrl);
+    const handleImageClick = (img: Image) => {
+        setMainImage(img);
     };
 
     return (
@@ -33,7 +31,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ images }) => {
                 <Col xs={12} md={8}>
                     <Card className="p-3" style={{ maxWidth: '800px', height: '300px' }}>
                         {mainImage ? (
-                            <Image src={mainImage} style={{ objectFit: 'contain', width: '100%', height: '100%' }} rounded />
+                            <Image src={urlFor(mainImage.asset).width(300).url()} style={{ objectFit: 'contain', width: '100%', height: '100%' }} rounded />
                         ) : (
                             <p>No Image Selected</p>
                         )}
@@ -47,11 +45,11 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ images }) => {
                     <Col xs={3} md={2} key={index} className="mb-2">
                         <Card
                             onClick={() => handleImageClick(img)}
-                            className={`p-1 ${mainImage === `data:${img.contentType};base64,${img.data}` ? 'border-primary' : ''}`} // Highlight selected image
+                            className={`p-1 ${mainImage ? 'border-primary' : ''}`} // Highlight selected image
                             style={{ cursor: 'pointer' }}
                         >
                             <Image
-                                src={`data:${img.contentType};base64,${img.data}`}
+                                src={urlFor(img.asset).width(300).height(300).url()}
                                 thumbnail
                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />

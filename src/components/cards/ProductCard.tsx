@@ -3,26 +3,28 @@ import "../cards/cards.css"
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import img1 from "../../assets/images/image.png";
-import { ImageData, Product, ProductProps } from "../../types/productTypes";
+import { Image, ImageData, Product, ProductFromSanity, ProductProps } from "../../types/productTypes";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../slice/cartSlice";
 import { Items } from "../../types/cartTypes";
 import { useEffect, useState } from "react";
 import { calculatePrice } from "../../utils/helperFunctions";
+import { urlFor } from "../../lib/client";
 
-const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+const ProductCard: React.FC<{ product: ProductFromSanity }> = ({ product }) => {
     const [price, setprice] = useState(1);
     const dispatch = useDispatch();
-    const handleCart = (product: Product) => {
+    const handleCart = (product: ProductFromSanity) => {
         const finalprice = product?.offerpercentage != 0 ? calculatePrice(price, product?.offerpercentage) : price;
+        const cartimag : Image = product?.images![0];
         const items: Items = {
-            id: product.id,
+            id: product._id,
             name: product.name,
             price: product.price,
             quantity: product.quantity,
             description: product.description,
-            images: product.images,
+            images: cartimag,
             itemQty: 1,
             finalPrice: finalprice,
         }
@@ -41,19 +43,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     }
 
     const { images } = product;  // Assuming images?: (File | string)[];
-    const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-
-    useEffect(() => {
-        if (images && images.length > 0) {
-          const firstImage = images[0] as ImageData;
-        
-          if (firstImage.data && firstImage.contentType) {
-            // Construct the base64 URL for the image
-            const base64ImageUrl = `data:${firstImage.contentType};base64,${firstImage.data}`;
-            setImageSrc(base64ImageUrl);
-          }
-        }
-      }, [images]);
+   
 
     useEffect(() => {
         setTprice();
@@ -63,8 +53,8 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
 
         <div className='m-4'>
             <Card className="product-card" style={{ width: '18rem', minHeight: "420px", maxHeight: "500px" }} >
-                {imageSrc ? (
-                    <Card.Img variant="top" style={{width:"300px", height:"220px"}} src={imageSrc} onClick={handleProductView} />
+                {product?.images ? (
+                    <Card.Img variant="top" style={{width:"300px", height:"220px"}} src={urlFor(product?.images[0].asset!).width(300).url()} onClick={handleProductView} />
                 ) : (
                     <Card.Img variant="top" src={img1} onClick={handleProductView} />
                 )}

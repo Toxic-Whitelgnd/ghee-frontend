@@ -1,10 +1,10 @@
 
 
-import { Product } from '../types/productTypes';
+import { Product, ProductFromSanity } from '../types/productTypes';
 import { User } from '../types/userTypes';
 
-export const sampleProduct: Product = {
-    id: 1,
+export const sampleProduct: ProductFromSanity = {
+    _id: "1",
     name: "Ghee",
     quantity: 100,
     price: [100,200,300],
@@ -14,8 +14,7 @@ export const sampleProduct: Product = {
     quantitysize: [100, 250, 300],
     instock: true,
     ratings: 200,
-    ratingStar: "3",
-    itemQty: 1,
+    ratingStar: 3
 };
 
 export const initialState: User = {

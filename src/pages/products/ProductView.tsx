@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectProductById, selectProductByName } from '../../slice/productSlice';
-import { Product , ImageData, ImageDatas} from '../../types/productTypes';
+import { Product, ImageData, ImageDatas, ProductFromSanity } from '../../types/productTypes';
 import { RatingsIcons } from '../../utils/svgIcons';
 import SizeCard from '../../components/cards/SizeCard';
 import { addItem, decreaseItemQty, increaseItemQty } from '../../slice/cartSlice';
@@ -18,7 +18,7 @@ import ObjectID from 'bson-objectid';
 
 interface RootState {
     product: {
-        products: Product[];
+        products: ProductFromSanity[];
     };
 }
 
@@ -31,37 +31,38 @@ const ProductView = () => {
     const dispatch = useDispatch();
 
     const [tempQty, setTempQty] = useState(1);
- 
+
     const [selectedQuantity, setSelectedQuantity] = useState<number | null>(null);
 
 
     const productId: number | undefined = id ? parseInt(id) : undefined;
 
     const product = useSelector((state: RootState) => selectProductByName(state, id?.toString()));
+    console.log(product);
 
-    const [price, setPrice] = useState<number>(product?.price[(product?.quantitysize?.indexOf(product?.quantity) == -1 ? 0 : product?.quantitysize?.indexOf(product?.quantity)  || 0)] || 0);
+    const [price, setPrice] = useState<number>(product?.price[(product?.quantitysize?.indexOf(product?.quantity) == -1 ? 0 : product?.quantitysize?.indexOf(product?.quantity) || 0)] || 0);
 
-    const handleIncreaseItemQty = (itemId: number) => {
+    const handleIncreaseItemQty = (itemId: string) => {
 
         setTempQty(tempQty + 1)
 
         // dispatch(increaseItemQty(product));
     };
 
-    const handleDecreaseItemQty = (itemId: number) => {
+    const handleDecreaseItemQty = (itemId: string) => {
         setTempQty(tempQty - 1)
         // dispatch(decreaseItemQty(product));
     };
 
-    const handleCart = (product: Product) => {
+    const handleCart = (product: ProductFromSanity) => {
         const finalprice = product?.offerpercentage != 0 ? calculatePrice(price, product?.offerpercentage) : price;
         const items: Items = {
-            id: product.id,
+            id: product._id,
             name: product.name,
             price: product.price,
             quantity: (selectedQuantity || product.quantity),
             description: product.description,
-            images: product.images,
+            images: product.images![0],
             itemQty: tempQty,
             quantitysize: product.quantitysize,
             instock: product.instock,
@@ -97,19 +98,19 @@ const ProductView = () => {
                 <h1>More Details About the product</h1>
                 <div className='row'>
                     <div className='col col-lg-5 mt-3'>
-                        <ImageSelector images={(product?.images as ImageData[]) || []} />
+                        <ImageSelector images={(product?.images) || []} />
 
                     </div>
                     <div className='col-md'>
                         <div className='row'>
                             <h3>{product?.name}</h3>
                             <div className='rating-container'>
-                                <RatingsIcons value={product?.ratingStar} />
+                                <RatingsIcons value={product?.ratingStar?.toString()} />
                                 <span className='m-3'>({product?.ratings})</span>
                             </div>
-                            <h5 className='mt-2'>Rs.{product?.offerpercentage != 0 ? <><del>{price}</del> {calculatePrice(price, product?.offerpercentage)}   
-                            <span className='ms-3 '>{product?.offerpercentage != 0 ? <>{product?.offerpercentage}% off </> : <></>}</span> </>
-                             : price}</h5>
+                            <h5 className='mt-2'>Rs.{product?.offerpercentage != 0 ? <><del>{price}</del> {calculatePrice(price, product?.offerpercentage)}
+                                <span className='ms-3 '>{product?.offerpercentage != 0 ? <>{product?.offerpercentage}% off </> : <></>}</span> </>
+                                : price}</h5>
                             <h3 className='mt-3'>Size</h3>
                             <p>Selected Quantity: {selectedQuantity ? `${selectedQuantity}ml` : 'None'}</p>
                             <div className='size-container'>
@@ -126,9 +127,9 @@ const ProductView = () => {
                             </div>
                             <div className='mt-4'>
                                 <div className="quantity">
-                                    <button className="minus" onClick={() => handleDecreaseItemQty((product?.id || 1))} aria-label="Decrease">-</button>
+                                    <button className="minus" onClick={() => handleDecreaseItemQty((product?._id || "1"))} aria-label="Decrease">-</button>
                                     <input type="number" className="input-box" value={tempQty} min="1" max="10" />
-                                    <button className="plus" onClick={() => handleIncreaseItemQty((product?.id || 1))} aria-label="Increase">+</button>
+                                    <button className="plus" onClick={() => handleIncreaseItemQty((product?._id || "1"))} aria-label="Increase">+</button>
                                 </div>
                             </div>
                             <div className='mt-4'>

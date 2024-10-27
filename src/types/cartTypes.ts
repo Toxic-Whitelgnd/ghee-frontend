@@ -1,14 +1,16 @@
+import { Image } from "./productTypes";
+
 export interface CartItems {
     cartItems: Items[];
 }
 
 export interface Items {
-    id:number,
+    id:string,
     name:string
     price: number[],
     quantity:number,
     description:string,
-    images?: (File | ImageData)[];
+    images?: Image;
     quantitysize?: number[];
     ratings?: number;
     ratingStar?: string;
