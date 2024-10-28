@@ -2,6 +2,7 @@ export const APIS = {
     API: 'http://localhost:8080',
     CONTEXT: '/api',
     PUBLIC: '/public',
+    SANITYAPI: 'http://localhost:3333/'
 }
 
 export const AUTHAPI = {
@@ -156,3 +157,16 @@ If you have any questions or concerns about this Privacy Policy, please contact 
 
 
 }
+
+export  const emailConstantsDescriptions = {
+    CUSTOMERNAME: "for replacing customer name",
+    ORDERID: "for replacing order ID",
+    RECIPET: "for replacing receipt",
+    TOTALAMOUNT: "for replacing total amount",
+    PAYMENTID: "for replacing payment ID",
+    MOBILENUMBER: "for replacing mobile number",
+    ADDRESS: "for replacing address",
+    PINCODE: "for replacing pincode",
+    DISTRICT: "for replacing district",
+    STATE: "for replacing state"
+};

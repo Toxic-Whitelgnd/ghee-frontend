@@ -70,8 +70,9 @@ function App() {
   
   return (
     <>
-      <MainLayout>
+     
       <Router>
+      <MainLayout>
             <Routes>
                 <Route path='/' index element={<Home />} />
                 <Route path='/admin' element={<AdminDashboard />} />
@@ -88,8 +89,9 @@ function App() {
                 <Route path='/failure' element={<PaymentFailure />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
+            </MainLayout>
         </Router>
-      </MainLayout>
+      
         
     </>
   )

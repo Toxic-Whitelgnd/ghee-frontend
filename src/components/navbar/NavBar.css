@@ -1,95 +1,159 @@
-/* From Uiverse.io by Julian956 */ 
 .btn-cart {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    border: none;
-    background-color: transparent;
-    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: transparent;
+  position: relative;
 }
 
 .btn-cart::after {
-    content: attr(data-quantity); /* Keep this to show the quantity */
-    width: fit-content;
-    height: fit-content;
-    position: absolute;
-    font-size: 15px;
-    color: rgb(0, 0, 0);
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    opacity: 1; /* Set to 1 to always show */
-    visibility: visible; /* Always visible */
-    transition: 0.2s linear;
-    top: 35%; /* Adjust if needed */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center horizontally */
+  content: attr(data-quantity);
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  font-size: 15px;
+  color: rgb(0, 0, 0);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  opacity: 1;
+  visibility: visible;
+  transition: 0.2s linear;
+  top: 35%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .icon-cart {
-    width: 24.38px;
-    height: 30.52px;
-    transition: 0.2s linear;
+  width: 24.38px;
+  height: 30.52px;
+  transition: 0.2s linear;
 }
 
 .icon-cart path {
-    fill: rgb(240, 8, 8);
-    transition: 0.2s linear;
+  fill: rgb(240, 8, 8);
+  transition: 0.2s linear;
 }
 
-.btn-cart:hover > .icon-cart {
-    transform: scale(1.2);
+.btn-cart:hover>.icon-cart {
+  transform: scale(1.2);
 }
 
-.btn-cart:hover > .icon-cart path {
-    fill: rgb(186, 34, 233);
+.btn-cart:hover>.icon-cart path {
+  fill: rgb(186, 34, 233);
 }
 
-/* Remove the quantity display style */
 .quantity {
-    display: block; /* Change to block to show it */
+  display: block;
 }
 
 
-  .navbar-custom{
-    display: flex;
-    
-    margin-left: auto;
-    justify-content: end;
-    align-items: end;
-    font-size: 22px;
-    
-  }
+.navbar-custom {
+  display: flex;
 
-  .navbar-container{
-    height:100px !important;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px !important;
-    
-  }
+  margin-left: auto;
+  justify-content: end;
+  align-items: end;
+  font-size: 22px;
 
-  .bg-body-tertiary {
-    background-color: var(--primary) !important;
-  }
+}
 
-  .custom-btn-cart{
-    margin-left: auto !important;
+.navbar-container {
+  height: 100px !important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px !important;
 
-  }
+}
 
-  @media screen and (max-width: 990px){
-    .navbar-custom{
-        /* display: flex;
+
+
+.custom-btn-cart {
+  margin-left: auto !important;
+
+}
+
+@media screen and (max-width: 990px) {
+  .navbar-custom {
+    /* display: flex;
         
         margin-left: auto;
         justify-content: end;
         align-items: end; */
-        font-size: 16px;
-        margin-top: 0; /* No margin on top for large screens and above */
-        margin-bottom: 0;
-      }
-
-      .navbar-container{
-        height: 100%;
-      }
+    font-size: 16px;
+    margin-top: 0;
+    /* No margin on top for large screens and above */
+    margin-bottom: 0;
   }
+
+  .navbar-container {
+    height: 100%;
+  }
+}
+
+
+/* New styles */
+/* .NavBarSection {
+    font-size: 1.07rem;
+  }
+  .navbar-toggler{
+    color: white !important;
+  }
+  .navbar
+  {
+    
+    z-index: 99;
+    background-color: var(--primary);
+    
+  }
+
+  .nav-link:hover{
+    color: var(--tertiary) !important;
+  }
+  .active{
+    color: var(--quadinary) !important;
+    font-weight: 600;
+  }
+   */
+
+   .navbar{
+    background-color: var(--primary) !important;
+   }
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%280,0,0,0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+.navbar-custom.navbar-nav {
+  width: 150px;
+  background-color: var(--primary);
+  padding-right: 20px;
+  border-top: 15px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.dropdown-menu.show{
+  background-color: var(--primary);
+  margin-left: -50px;
+}
+.dropdown-menu.show a:hover{
+  background-color: var(--secondary);
+}
+
+@media screen and (max-width: 950px) {
+  #navbarScrollingDropdown {
+    margin-right: 0px;
+  }
+
+  .navbar-custom.navbar-nav {
+    background-color: var(--primary);
+  }
+
+  .navbar-nav .dropdown-menu {
+    position: absolute;
+    top: 30px;
+    margin-left: -77px;
+    background-color: var(--primary);
+  }
+}

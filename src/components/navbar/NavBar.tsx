@@ -71,7 +71,7 @@ export default function NavBar() {
 
     return (
         <div>
-            <Navbar expand="lg" className="bg-body-tertiary fixed-top navbar-container">
+            <Navbar expand="lg" className="fixed-top navbar-container">
                 <Container fluid>
                     <Navbar.Brand href="/">LogoGoes here</Navbar.Brand>
                     <button data-quantity={items} className="btn-cart custom-btn-cart">
@@ -90,7 +90,7 @@ export default function NavBar() {
                         >
                             <Nav.Link href="#/">Home</Nav.Link>
                             <Nav.Link href="#/products" >Product</Nav.Link>
-                            <Nav.Link href="#/about">About</Nav.Link>
+                            {/* <Nav.Link href="#/about">About</Nav.Link> */}
                             <Nav.Link href="#/cart">Cart</Nav.Link>
                             {isLoggedIn ? <NavDropdown title="Profile" id="navbarScrollingDropdown">
                                 <NavDropdown.Item href="#/account">Account</NavDropdown.Item>

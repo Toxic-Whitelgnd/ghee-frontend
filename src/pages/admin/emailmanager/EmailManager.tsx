@@ -7,6 +7,7 @@ import { selectUser } from '../../../slice/userSlice';
 import { EmailTemplate } from '../../../types/emailTypes';
 import { EmailTemplateManagerAdd, EmailTemplateManagerDelete, EmailTemplateManagerGet, EmailTemplateManagerUpdate } from '../../../services/emailService';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { emailConstantsDescriptions } from '../../../utils/constants';
 
 // TODO: NEED TO CHECK ONLY ONE DEAFULT TEMPALTE FOR EACH ONE OF THE STATUS, SHOULD IMPLEMENT IN THE FROTNED
 //TODO: Implemt the email store for this,
@@ -152,12 +153,16 @@ const EmailTemplateManager: React.FC = () => {
                         <Button variant="primary" onClick={handleShow} className="me-2">
                             NOTE
                         </Button>
-                        <Offcanvas show={show} onHide={handleClose} placement='top'>
+                        <Offcanvas show={show} onHide={handleClose} placement='top' style={{"height":'300px'}}>
                             <Offcanvas.Header closeButton>
-                                <Offcanvas.Title>For Email - use placeholder (for replacing ) </Offcanvas.Title>
+                                <Offcanvas.Title><h1>Email Place holder</h1></Offcanvas.Title>
                             </Offcanvas.Header>
                             <Offcanvas.Body>
-                                <b>CUSTOMERNAME</b> -- for replacing customer name
+                                {Object.entries(emailConstantsDescriptions).map(([key, description]) => (
+                                    <p key={key}>
+                                        <b>{key}</b> -- {description}
+                                    </p>
+                                ))}
                             </Offcanvas.Body>
                         </Offcanvas>
                     </div>
