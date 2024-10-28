@@ -24,6 +24,10 @@ export interface UserLogin {
     password: string;
 }
 
+export interface UserPasswordReset {
+    email: string;
+}
+
 export interface AuthResponse {
     token: string;
     user: {

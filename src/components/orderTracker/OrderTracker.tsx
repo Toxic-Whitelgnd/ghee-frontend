@@ -63,7 +63,7 @@ export default function OrderDetails6({status} : any) {
                                                         <li className="step0 active text-center" id="step1"></li>
                                                         <li className="step0 active text-center" id="step2"></li>
                                                         <li className="step0 active text-center" id="step3"></li>
-                                                        <li className="step0 active text-muted text-end" id="step4"></li>
+                                                        <li className="step0 active text-center" id="step4"></li>
                                                     </>
                                                 );
                                             default:

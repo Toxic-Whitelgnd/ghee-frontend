@@ -14,6 +14,7 @@ export interface OrderDTO {
     receipt?: string;
     note?: string;
     createdAt: Date;
+    paymentmode?: string;
 }
 
 export interface OrderResponse {
@@ -33,6 +34,7 @@ export interface OrderResponse {
     note: string;
     createdAt: string;  // Date can be in ISO format
     items:Items[];  
+    paymentmode: string;
   }
 
   export interface PaymentIds {

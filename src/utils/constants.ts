@@ -9,7 +9,9 @@ export const AUTHAPI = {
     ACCOUNT: '/account',
     LOGIN: '/account/login',
     REGISTER: '/account/register',
-    REGISTERONPROCESS: '/account/registeronprocess'
+    REGISTERONPROCESS: '/account/registeronprocess',
+    RESETPASSWORD: '/account/resetpassword',
+    RESETNEWPASSWORD: '/account/resetnewpassword',
 }
 
 export const EMAIL = {
@@ -32,6 +34,7 @@ export const PROFILE = {
 export const CHECKOUT = {
     CHECKOUT: '/checkout',
     CREATEORDER: '/createorder',
+    CODORDER: '/codorder',
     UPDATEORDER: '/updateorder',
 }
 

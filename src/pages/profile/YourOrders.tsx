@@ -43,7 +43,7 @@ const YourOrders: React.FC = () => {
             {orders != null && orders.map((order, index) => (
               <Card key={order.id} className="mb-4 m-2">
                 <Card.Header>
-                  <strong>Order ID:</strong> {order.orderid.substring(7)} | <strong>Status:</strong>{order.paymentid} | <strong>Status:</strong> {order.status}
+                  <strong>Order ID:</strong> {order.orderid.substring(6)} | <strong>Status:</strong>{order.paymentid} | <strong>Status:</strong> {order.status}
                 </Card.Header>
                 <Card.Body>
                   <Row>
@@ -79,7 +79,7 @@ const YourOrders: React.FC = () => {
 
                   {showTracker === index && (
                     <div className="mt-3">
-                      <OrderDetails6 status={order.status} />
+                      <OrderDetails6 status={"DELIVERED"} />
                     </div>
                   )}
                 </Card.Body>

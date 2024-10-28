@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios"
 
 import { toast } from "react-toastify";
-import { AuthResponse, User, UserLogin, UserRegisterDTO } from "../types/userTypes";
+import { AuthResponse, User, UserLogin, UserPasswordReset, UserRegisterDTO } from "../types/userTypes";
 import { updateUser } from "../slice/userSlice";
 import { useNavigate } from "react-router-dom";
 import { APIS, AUTHAPI } from "../utils/constants";
@@ -108,5 +108,52 @@ export const AuthRegisterOnProcessService = async (billingUser: BillingDetails, 
         console.log(error);
         toast.error("User name already exists");
         return false;
+    }
+}
+
+export const AuthPasswordRestService = async (user: UserPasswordReset, dispatch: any) =>{
+    try {
+        const res = await axios.post(`${APIS.API}${APIS.CONTEXT}${AUTHAPI.RESETPASSWORD}`,
+            user
+        );
+        if(res.status === 200) {
+            toast.success("Password reset request was sent to your email");
+            return true;
+        }
+    } catch (error) {
+        toast.error("User password reset failed");
+        return false;
+    }
+}
+
+export const AuthPasswordChangeService = async (usernew: UserLogin, dispatch: any) =>{
+    try {
+        const response: AxiosResponse<AuthResponse> = await axios.post(`${APIS.API}${APIS.CONTEXT}${AUTHAPI.RESETNEWPASSWORD}`,
+            usernew
+        );
+        const token = response.data.token;
+        const user = response.data.user;
+
+        const loginuser: User = {
+            name: user.username,
+            password: user.password,
+            email: user.emailaddress,
+            mobilenumber: user.mobilenumber,
+            address: user.address,
+            pincode: user.pincode,
+            district: user.district,
+            state: user.state,
+            roles: user.roles,
+            token: token
+        }
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('user', JSON.stringify(loginuser));
+        dispatch(updateUser(loginuser));
+        toast.success("Login successful");
+        
+        window.location.href = '#/'
+
+    } catch (error) {
+        
     }
 }

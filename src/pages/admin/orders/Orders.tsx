@@ -11,7 +11,7 @@ interface OrdersProps {
     <Card className='customer-order' style={{ width: '18rem' }}>
       <Card.Body>
         <Card.Title>{order.username.toLocaleUpperCase()}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">Order #{order.orderid.substring(7)}</Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">Order #{order.orderid.substring(6)}</Card.Subtitle>
         <Card.Text>
           Ordered on - {order.createdAt.toString().substring(0,10)}
           <br></br>

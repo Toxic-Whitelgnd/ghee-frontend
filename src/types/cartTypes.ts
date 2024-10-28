@@ -34,6 +34,7 @@ export interface Order {
     receipt?: string;          // Receipt (optional, can be generated after payment)
     note?: string;             // Optional customer note
     createdAt: Date;           // Date of the order creation
+    paymentmode: string;     // Payment method
 }
 
 // types/cartTypes.ts

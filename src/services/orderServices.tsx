@@ -17,7 +17,8 @@ export const orderServiceCreate = async (order : Order , user : User) : Promise<
         totalAmount: order.totalAmount,
         receipt: order.receipt,
         note: order.note,
-        createdAt: order.createdAt
+        createdAt: order.createdAt,
+        paymentmode: order.paymentmode,
     }
     console.log(orderdto);
     try {
@@ -66,6 +67,34 @@ export const orderServiceAdminGet = async () :Promise<OrderModel[] | undefined >
             return res.data;
         }
         
+    } catch (error) {
+        return undefined;
+    }
+}
+
+export const orderServiceCashOnDelivery = async (order : Order , user : User) : Promise<OrderResponse | undefined> =>{
+    const orderdto : OrderDTO ={
+        username: user.name,
+        mobilenumber: user.mobilenumber,
+        emailaddress: user.email,
+        address: user.address,
+        pincode: user.pincode,
+        state: user.state,
+        district: user.district,
+        items: order.items,
+        totalAmount: order.totalAmount,
+        receipt: order.receipt,
+        note: order.note,
+        createdAt: order.createdAt,
+        paymentmode: order.paymentmode,
+    }
+    console.log(orderdto);
+    try {
+        const res : AxiosResponse<OrderResponse> = await axios.post(`${APIS.API}${APIS.CONTEXT}${CHECKOUT.CHECKOUT}${CHECKOUT.CODORDER}`,
+            orderdto
+        )
+        console.log(res.data);
+        return res.data;
     } catch (error) {
         return undefined;
     }

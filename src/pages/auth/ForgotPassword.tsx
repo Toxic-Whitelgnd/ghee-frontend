@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './auth.css';
 import { Email, Password } from '../../utils/svgIcons';
-import { UserLogin } from '../../types/userTypes';
-import { AuthLoginService } from '../../services/authServices';
+import { UserLogin, UserPasswordReset } from '../../types/userTypes';
+import { AuthLoginService, AuthPasswordRestService } from '../../services/authServices';
 import { useDispatch } from 'react-redux';
 
 // Validation function for login
-const validateLogin = (email: string, password: string) => {
-    const errors: { email?: string; password?: string } = {};
+const validateLogin = (email: string) => {
+    const errors: { email?: string;} = {};
 
     // Email validation
     if (!email) {
@@ -17,20 +17,13 @@ const validateLogin = (email: string, password: string) => {
         errors.email = 'Email format is invalid';
     }
 
-    // Password validation
-    // if (!password) {
-    //     errors.password = 'Password is required';
-    // } else if (password.length < 6) {
-    //     errors.password = 'Password must be at least 6 characters';
-    // }
-
     return errors;
 };
 
 const Login = () => {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+   
+    const [errors, setErrors] = useState<{ email?: string; }>({});
     const [errorTimeout, setErrorTimeout] = useState<NodeJS.Timeout | null>(null); // To track timeout
 
     const dispatch = useDispatch();
@@ -45,7 +38,7 @@ const Login = () => {
         }
 
         // Validate the inputs
-        const validationErrors = validateLogin(email, password);
+        const validationErrors = validateLogin(email);
         setErrors(validationErrors);
 
         // Set timeout to clear errors after 10 seconds
@@ -59,11 +52,13 @@ const Login = () => {
 
         // If no validation errors, proceed with login
         if (Object.keys(validationErrors).length === 0) {
-            const userDetails: UserLogin = {
-                email: email,
-                password: password,
+            const userDetails: UserPasswordReset = {
+                email: email
             };
-            await AuthLoginService(userDetails, dispatch);
+            const res = await AuthPasswordRestService(userDetails, dispatch);
+            if(res){
+                setEmail('');
+            }
         }
     };
 
@@ -76,11 +71,10 @@ const Login = () => {
         };
     }, [errorTimeout]);
 
-    function handleForgotPassword(): void {
-        window.location.href = "#/forgotpassword";
-    }
-
     return (
+        <div className='common-container'>
+
+
         <div className='loginform'>
             <form className="form m-4" onSubmit={handleSubmit}>
                 <div className="flex-column">
@@ -100,38 +94,15 @@ const Login = () => {
                 </div>
                 {errors.email && <p className="error">{errors.email}</p>} {/* Email error */}
 
-                <div className="flex-column">
-                    <label htmlFor="password">Password</label>
-                </div>
-                <div className="inputForm">
-                    <Password />
-                    <input
-                        type="password"
-                        className="input"
-                        id="password"
-                        placeholder="Enter your Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                {errors.password && <p className="error">{errors.password}</p>} {/* Password error */}
-
-                <div className="flex-row">
-                    <div>
-                        <input type="checkbox" id="rememberMe" />
-                        <label htmlFor="rememberMe" className='ms-2'>Remember me</label>
-                    </div>
-                    <span onClick={handleForgotPassword} className="span">Forgot password?</span>
-                </div>
-
-                <button className="button-submit" type="submit">Sign In</button>
+            
+                <button className="button-submit" type="submit">Reset Password</button>
 
                 <p className="p">
                     Don't have an account?{' '}
                     <Link to='/register'><span className="span">Sign Up</span></Link>
                 </p>
             </form>
+        </div>
         </div>
     );
 };

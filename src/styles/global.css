@@ -308,3 +308,7 @@
   max-height: 400px;
   overflow-y: scroll;
 }
+
+.admin-container{
+  margin: 30px;
+}

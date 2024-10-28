@@ -21,6 +21,8 @@ import { productServiceGet } from './services/apiServices';
 import { setfromSanityProduct } from './slice/productSlice';
 import { useDispatch } from 'react-redux';
 import { Client } from './lib/client';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ResetPassword from './pages/auth/ResetPassword';
 
 function App() {
 
@@ -81,6 +83,8 @@ function App() {
                 <Route path='/cart' element={<Cart />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />
+                <Route path='/forgotpassword' element={<ForgotPassword />} />
+                <Route path='/resetpassword' element={<ResetPassword />} />
                 <Route path='/account' element={<Profile />} />
                 <Route path='/orders' element={<YourOrders />} />
                 <Route path='/checkoutbilling' element={<BillingDetailsPage />} />

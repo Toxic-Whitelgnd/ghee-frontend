@@ -80,7 +80,7 @@ export default function AdminDashboard() {
   };
 
   const filteredOrders = orders?.filter((ord) =>
-    ord.orderid.substring(7).toLowerCase().includes(searchTerm.toLowerCase())
+    ord.orderid.substring(6).toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -91,9 +91,9 @@ export default function AdminDashboard() {
     <div className='common-container'>
       {user.roles?.some(role => role === "ADMIN") && user.isloggedin ? <>
 
-        <h1>Admin Page</h1>
-        <div>
-          <Container>
+        {/* <h1>Admin Page</h1> */}
+        <div className='admin-container'>
+          {/* <Container> */}
             <Tab.Container defaultActiveKey="link-1">
               <Row className='mt-4'>
                 <Col sm={3}>
@@ -255,7 +255,7 @@ export default function AdminDashboard() {
                 </Col>
               </Row>
             </Tab.Container>
-          </Container>
+          {/* </Container> */}
         </div>
       </> : <>
         <ForbidenPage />
