@@ -101,11 +101,14 @@ const OrdersPage: React.FC = () => {
             orderid: razor_res.razorpay_order_id,
             paymentsignature: razor_res.razorpay_signature
         }
+        setLoading(true);
         const res = await orderServiceUpdate(payment);
         if (res) {
             dispatch(clearCart());
+            setLoading(false);
             window.location.href = '#/success'
         }
+        setLoading(false);
     }
 
     const handelPaymentChange = (e: any) =>{

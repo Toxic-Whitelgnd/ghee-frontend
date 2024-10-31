@@ -305,10 +305,21 @@
 
 /* ADMIN STYLES */
 .order-container{
-  max-height: 400px;
+  max-height: 450px;
+  min-height: 450px;
   overflow-y: scroll;
 }
 
 .admin-container{
   margin: 30px;
+}
+
+.text-red{
+  color: red;
+  font-weight: 700;
+}
+
+.text-green{
+  color: green;
+  font-weight: 700;
 }

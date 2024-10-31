@@ -36,6 +36,7 @@ export const CHECKOUT = {
     CREATEORDER: '/createorder',
     CODORDER: '/codorder',
     UPDATEORDER: '/updateorder',
+    VERIFYPAYMENT: '/verifypayment',
 }
 
 export const ORDER = {

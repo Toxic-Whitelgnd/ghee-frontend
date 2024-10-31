@@ -70,5 +70,6 @@ export interface ItemModel {
     paymentid: string;
     paymentsignature: string;
     status?: string;
+    paymentmode?: string;
   }
   

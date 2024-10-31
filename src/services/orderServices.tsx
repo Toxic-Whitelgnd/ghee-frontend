@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { Order, OrderModel } from "../types/cartTypes";
-import { OrderDTO, OrderResponse, PaymentIds } from "../types/orderTypes";
+import { OrderDTO, OrderResponse, PaymentIds, PaymentVerificationDTO } from "../types/orderTypes";
 import { User } from "../types/userTypes";
 import { APIS, CHECKOUT, ORDER } from "../utils/constants";
 
@@ -98,4 +98,17 @@ export const orderServiceCashOnDelivery = async (order : Order , user : User) : 
     } catch (error) {
         return undefined;
     }
+}
+
+export const paymentVerificationService = async (payment : PaymentVerificationDTO) : Promise<boolean> =>{
+    try {
+        const res : AxiosResponse<boolean> = await axios.post(`${APIS.API}${APIS.CONTEXT}${CHECKOUT.CHECKOUT}${CHECKOUT.VERIFYPAYMENT}`,
+            payment
+        )
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+    return false;
+
 }

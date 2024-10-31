@@ -43,7 +43,7 @@ const YourOrders: React.FC = () => {
             {orders != null && orders.map((order, index) => (
               <Card key={order.id} className="mb-4 m-2">
                 <Card.Header>
-                  <strong>Order ID:</strong> {order.orderid.substring(6)} | <strong>Status:</strong>{order.paymentid} | <strong>Status:</strong> {order.status}
+                  <strong>Order ID:</strong> {order.orderid.substring(6)} | <strong>Payment Id:</strong>{order.paymentid != "" && order.paymentid != null ? order.paymentid.substring(6) : ""} | <strong>Status:</strong> {order.status} | <strong>Payment Mode:</strong> {order.paymentmode!}
                 </Card.Header>
                 <Card.Body>
                   <Row>

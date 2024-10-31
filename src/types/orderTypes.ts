@@ -57,3 +57,8 @@ export interface EmailDTO {
   status: string,
   orderid: string
 }
+
+export interface PaymentVerificationDTO {
+  orderid: string;
+  paymentid: string;
+}
