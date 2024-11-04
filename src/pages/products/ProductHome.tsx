@@ -58,7 +58,7 @@ export default function ProductHome() {
   return (
     <div className='common-container'>
       <div className='d-flex'>
-        <h1 className='ms-4'>Products</h1>
+        <h1 className='ms-4 m-2'>Products</h1>
 
         <div className="search-box ms-lg-5">
           <button className="btn-search"><i className="fas fa-search"></i></button>
@@ -73,7 +73,7 @@ export default function ProductHome() {
       {loading ? (
         <Loader />
       ) : (
-        <div className='d-flex product-container'>
+        <div className='d-flex product-container flex-wrap'>
           {filteredProducts.length > 0 ? (
             filteredProducts.map((x) => (
               <ProductCard key={x._id} product={x} /> // Ensure unique key for each product

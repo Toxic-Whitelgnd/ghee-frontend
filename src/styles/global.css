@@ -156,7 +156,7 @@
     transition: all .2s;
     padding: 10px 20px;
     border-radius: 100px;
-    background: rgb(255, 217, 0);
+    background: #EFC850;
     border: 1px solid transparent;
     display: flex;
     align-items: center;
@@ -164,7 +164,7 @@
   }
   
   .continue-btn:hover {
-    background: orange;
+    background: #FABF21;
   }
   
   .continue-btn> svg {
@@ -322,4 +322,29 @@
 .text-green{
   color: green;
   font-weight: 700;
+}
+
+/* Mobile responsive */
+@media only screen and (max-width: 580px) {
+  .swiper-slide img{
+    height: 180px;
+    width: 150px;
+  }
+
+  .swiper{
+    padding-top: 10px;
+  }
+
+  .btn-search:focus ~ .input-search{
+    width: 210px;
+   
+  }
+
+  .input-search:focus{
+    width: 210px;
+  }
+
+  .table>:not(caption)>*>*{
+    padding: 10px !important;
+  }
 }

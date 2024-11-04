@@ -181,8 +181,8 @@ const OrdersPage: React.FC = () => {
                                         <Dropdown.Item eventKey="ONLINE">Online</Dropdown.Item>
                                         <Dropdown.Item eventKey="CASHONDELIVERY">Cash on Delivery</Dropdown.Item>
                                     </DropdownButton>
-                                    <Button variant="success" onClick={handleCheckout}>
-                                        Proceed to Checkout
+                                    <Button className='sm-10' variant="success" onClick={handleCheckout}>
+                                        Checkout
                                     </Button>
                                 </Col>
                             </Row>
