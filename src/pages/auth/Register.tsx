@@ -50,7 +50,7 @@ const Register = () => {
     });
 
     const [errors, setErrors] = useState<{ email?: string; name?: string; mobilenumber?: string; password?: string }>({});
-    const [errorTimeout, setErrorTimeout] = useState<number | null>(null); // To track the timeout ID
+    const [errorTimeout, setErrorTimeout] = useState<NodeJS.Timeout | null>(null); // To track the timeout ID
 
     // Handle input changes
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
