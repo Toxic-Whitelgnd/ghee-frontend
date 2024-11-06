@@ -1,5 +1,5 @@
 export const APIS = {
-    API: 'http://localhost:8080',
+    API: 'https://ghee-backend.onrender.com',
     CONTEXT: '/api',
     PUBLIC: '/public',
     SANITYAPI: 'http://localhost:3333/'
