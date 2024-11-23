@@ -21,6 +21,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "bson-objectid": "^2.0.4",
+    "firebase-tools": "^13.27.0",
     "gh-pages": "^6.2.0",
     "lodash": "^4.17.21",
     "mdb-react-ui-kit": "^9.0.0",
