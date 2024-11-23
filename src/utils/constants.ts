@@ -2,7 +2,7 @@ export const APIS = {
     API: 'https://ghee-backend.onrender.com',
     CONTEXT: '/api',
     PUBLIC: '/public',
-    SANITYAPI: 'http://localhost:3333/'
+    SANITYAPI: 'https://gheestudio.sanity.studio/structure/product'
 }
 
 export const AUTHAPI = {
