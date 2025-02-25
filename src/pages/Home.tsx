@@ -35,9 +35,10 @@ export default function Home() {
                             <div className='col p-4' data-aos-duratiob="2200" data-aos-easing="ease-out" data-aos="fade-left">
                                 <h1 className='head-3d'>Ghees!</h1>
                                 <span className='mt-5' >
-                                    Welcome to our blog! We're so excited to have you here. Our goal is to provide
-                                    valuable information and insights on a variety of topics that interest you.
-                                    From lifestyle and wellness to business and technology,
+                                Introducing our premium homemade ghee, the perfect addition to your healthy cooking repertoire! 
+                                Crafted in small batches from the finest grass-fed butter, our ghee is rich in essential nutrients 
+                                and has a delightful, nutty flavor that elevates any dish. Unlike regular butter, our ghee is 
+                                lactose-free and boasts a high smoke point, making it ideal for sautéing, roasting, or spreading.
                                 </span>
                                 <br />
 
@@ -64,10 +65,9 @@ export default function Home() {
                             <div className='col p-4 ms-5' data-aos-duratiob="2200" data-aos-easing="ease-out" data-aos="fade-right">
                                 <h1 className='head-3d'>What makes special!</h1>
                                 <span className='mt-5 ' >
-                                    Welcome to our blog! We're so excited to have you here. Our goal is to provide
-                                    valuable information and insights on a variety of topics that interest you.
-                                    From lifestyle and wellness to business and technology, we strive to bring you
-                                    the latest news and trends.
+                                Each jar is lovingly prepared, ensuring purity and quality you can taste. Experience the benefits of this golden
+                                 elixir, packed with vitamins A, D, E, and K, and embrace a healthier lifestyle while enhancing your 
+                                 culinary creations. Order now to enjoy the magic of homemade ghee delivered right to your door!
                                 </span>
                                 <br />
 

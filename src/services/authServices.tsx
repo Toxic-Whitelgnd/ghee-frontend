@@ -72,9 +72,11 @@ export const AuthLoginService = async (userData : UserLogin, dispatch: any) =>{
         toast.success("Login successful");
         
         window.location.href = '#/'
+        return true;
     } catch (error) {
         console.log(error);
         toast.error("Login Failed");
+        return false;
     }
 }
 

@@ -4,6 +4,7 @@ import { Email, Mobile, Password, User } from '../../utils/svgIcons';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '../../slice/userSlice';
 import { AuthRegisterService } from '../../services/authServices';
+import Loader from '../../components/cards/Loader';
 
 // Validation function
 const validateForm = (formData: { email: string; name: string; mobilenumber: string; password: string }) => {
@@ -51,7 +52,8 @@ const Register = () => {
 
     const [errors, setErrors] = useState<{ email?: string; name?: string; mobilenumber?: string; password?: string }>({});
     const [errorTimeout, setErrorTimeout] = useState<NodeJS.Timeout | null>(null); // To track the timeout ID
-
+    const [loading, setLoading] = useState(false);
+    
     // Handle input changes
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -64,7 +66,7 @@ const Register = () => {
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+
         // Clear any existing timeout
         if (errorTimeout) {
             clearTimeout(errorTimeout);
@@ -85,10 +87,12 @@ const Register = () => {
 
         // Check if there are no validation errors
         if (Object.keys(validationErrors).length === 0) {
-            console.log(JSON.stringify(formData)); // Handle server response
+            setLoading(true); 
+            // console.log(JSON.stringify(formData)); // Handle server response
 
             await AuthRegisterService(formData, dispatch);
             // navigate('/');
+            setLoading(false);
         }
     };
 
@@ -104,83 +108,86 @@ const Register = () => {
     return (
         <div>
             <div className='registerform'>
-                <form className="form m-4" onSubmit={handleSubmit}>
-                    <div className="flex-column">
-                        <label>Email</label>
-                    </div>
-                    <div className="inputForm">
-                        <Email />
-                        <input
-                            type="text"
-                            className="input"
-                            name="email"
-                            placeholder="Enter your Email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    {errors.email && <p className="error">*{errors.email}</p>} {/* Email error */}
+                {loading ? <div className='loader-cont'><Loader /></div> : <>
+                    <form className="form m-4" onSubmit={handleSubmit}>
+                        <div className="flex-column">
+                            <label>Email</label>
+                        </div>
+                        <div className="inputForm">
+                            <Email />
+                            <input
+                                type="text"
+                                className="input"
+                                name="email"
+                                placeholder="Enter your Email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        {errors.email && <p className="error">*{errors.email}</p>} {/* Email error */}
 
-                    <div className="flex-column">
-                        <label>Name</label>
-                    </div>
-                    <div className="inputForm">
-                        <User />
-                        <input
-                            type="text"
-                            className="input"
-                            name="name"
-                            placeholder="Enter your Name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    {errors.name && <p className="error">*{errors.name}</p>} {/* Name error */}
+                        <div className="flex-column">
+                            <label>Name</label>
+                        </div>
+                        <div className="inputForm">
+                            <User />
+                            <input
+                                type="text"
+                                className="input"
+                                name="name"
+                                placeholder="Enter your Name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        {errors.name && <p className="error">*{errors.name}</p>} {/* Name error */}
 
-                    <div className="flex-column">
-                        <label>Mobile Number</label>
-                    </div>
-                    <div className="inputForm">
-                        <Mobile />
-                        <input
-                            type="text"
-                            className="input"
-                            name="mobilenumber"
-                            placeholder="Enter your Mobile number"
-                            value={formData.mobilenumber}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    {errors.mobilenumber && <p className="error">*{errors.mobilenumber}</p>} {/* Mobile error */}
+                        <div className="flex-column">
+                            <label>Mobile Number</label>
+                        </div>
+                        <div className="inputForm">
+                            <Mobile />
+                            <input
+                                type="text"
+                                className="input"
+                                name="mobilenumber"
+                                placeholder="Enter your Mobile number"
+                                value={formData.mobilenumber}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        {errors.mobilenumber && <p className="error">*{errors.mobilenumber}</p>} {/* Mobile error */}
 
-                    <div className="flex-column">
-                        <label>Password</label>
-                    </div>
-                    <div className="inputForm">
-                        <Password />
-                        <input
-                            type="password"
-                            className="input"
-                            name="password"
-                            placeholder="Enter your Password"
-                            value={formData.password}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    {errors.password && <p className="error">*{errors.password}</p>} {/* Password error */}
+                        <div className="flex-column">
+                            <label>Password</label>
+                        </div>
+                        <div className="inputForm">
+                            <Password />
+                            <input
+                                type="password"
+                                className="input"
+                                name="password"
+                                placeholder="Enter your Password"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        {errors.password && <p className="error">*{errors.password}</p>} {/* Password error */}
 
-                    <p className="p">
-                        Already have an account?{' '}
-                        <Link to='/login'>
-                            <span className="span">Sign In</span>
-                        </Link>
-                    </p>
+                        <p className="p">
+                            Already have an account?{' '}
+                            <Link to='/login'>
+                                <span className="span">Sign In</span>
+                            </Link>
+                        </p>
 
-                    <button type="submit" className="button-submit">
-                        Sign Up
-                    </button>
-                </form>
+                        <button type="submit" className="button-submit">
+                            Sign Up
+                        </button>
+                    </form>
+                </>}
             </div>
+
         </div>
     );
 };

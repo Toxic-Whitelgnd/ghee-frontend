@@ -10,6 +10,7 @@ import { selectTotalItems } from '../../slice/cartSlice';
 import { configureAxios } from '../../config/axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import { initialState } from '../../types/userTypes';
+import img1 from "../../assets/images/logo1.png";
 
 export default function NavBar() {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -73,7 +74,7 @@ export default function NavBar() {
         <div>
             <Navbar expand="lg" className="fixed-top navbar-container">
                 <Container fluid>
-                    <Navbar.Brand href="/">LogoGoes here</Navbar.Brand>
+                    <Navbar.Brand href="/"><img src={img1} /></Navbar.Brand>
                     <button data-quantity={items} className="btn-cart custom-btn-cart">
                                 <svg className="icon-cart" viewBox="0 0 24.38 30.52" height="30.52" width="24.38" xmlns="http://www.w3.org/2000/svg">
                                     <title>icon-cart</title>
