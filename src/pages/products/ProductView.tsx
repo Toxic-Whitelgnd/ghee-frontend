@@ -43,14 +43,17 @@ const ProductView = () => {
     const [price, setPrice] = useState<number>(product?.price[(product?.quantitysize?.indexOf(product?.quantity) == -1 ? 0 : product?.quantitysize?.indexOf(product?.quantity) || 0)] || 0);
 
     const handleIncreaseItemQty = (itemId: string) => {
-
+        
         setTempQty(tempQty + 1)
 
         // dispatch(increaseItemQty(product));
     };
 
     const handleDecreaseItemQty = (itemId: string) => {
-        setTempQty(tempQty - 1)
+        if(tempQty > 0){
+            setTempQty(tempQty - 1)
+        }
+        
         // dispatch(decreaseItemQty(product));
     };
 

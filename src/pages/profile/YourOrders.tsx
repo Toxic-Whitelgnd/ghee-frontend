@@ -73,9 +73,9 @@ const YourOrders: React.FC = () => {
                     ))}
                   </ListGroup>
 
-                  <Button variant="primary" onClick={() => handleTrackClick(index)} className="mt-3">
+                  {/* <Button variant="primary" onClick={() => handleTrackClick(index)} className="mt-3">
                     {showTracker === index ? 'Hide Tracking' : 'Track'}
-                  </Button>
+                  </Button> */}
 
                   {showTracker === index && (
                     <div className="mt-3">
